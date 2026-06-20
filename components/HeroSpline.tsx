@@ -1,7 +1,7 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
 import Spline from '@splinetool/react-spline';
-import { useState, useEffect } from 'react';
 
 interface HeroSplineProps {
   sceneUrl?: string;
@@ -9,25 +9,22 @@ interface HeroSplineProps {
 
 function PlaceholderState() {
   return (
-    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-[2rem] border-2 border-cyan-400/30 backdrop-blur-md flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500">
-      {/* Grid pattern inside */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
+    <div className="absolute inset-0 flex items-center justify-end pr-24 pointer-events-none">
+      {/* Ambient glow behind placeholder */}
+      <div className="absolute right-[20%] top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/25 to-purple-500/25 blur-[140px] animate-pulse pointer-events-none" />
       
       {/* Content */}
-      <div className="relative text-center space-y-6 z-10">
-        <div className="text-7xl animate-float">🎨</div>
-        <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300">
-          Future AI Visual
+      <div className="relative text-center space-y-6 z-10 animate-float pointer-events-none">
+        <div className="text-8xl">🤖</div>
+        <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300">
+          Loading AI Experience
         </p>
-        <p className="text-base text-gray-400 font-medium">
-          Spline 3D Scene Loading...
-        </p>
+        <div className="flex justify-center gap-2">
+          <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping" />
+          <div className="w-2 h-2 bg-purple-400 rounded-full animate-ping" style={{ animationDelay: '0.2s' }} />
+          <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.4s' }} />
+        </div>
       </div>
-      
-      {/* Floating particles */}
-      <div className="absolute top-10 right-10 w-2 h-2 bg-cyan-400 rounded-full animate-ping" />
-      <div className="absolute bottom-20 left-10 w-2 h-2 bg-purple-400 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 right-20 w-2 h-2 bg-cyan-300 rounded-full animate-ping" style={{ animationDelay: '2s' }} />
     </div>
   );
 }
@@ -36,6 +33,8 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const splineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Detect mobile for performance optimization
@@ -48,6 +47,30 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
     
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  useEffect(() => {
+    // Debug event listeners
+    const splineEl = splineRef.current;
+    if (!splineEl || isMobile) return;
+
+    const logEvent = (e: MouseEvent) => {
+      console.log('🖱️ Mouse event on Spline:', e.type, 'at', e.clientX, e.clientY);
+    };
+
+    splineEl.addEventListener('mousemove', logEvent);
+    splineEl.addEventListener('mouseenter', logEvent);
+    splineEl.addEventListener('mouseleave', logEvent);
+    splineEl.addEventListener('pointermove', logEvent);
+
+    console.log('✅ Event listeners attached to Spline container');
+
+    return () => {
+      splineEl.removeEventListener('mousemove', logEvent);
+      splineEl.removeEventListener('mouseenter', logEvent);
+      splineEl.removeEventListener('mouseleave', logEvent);
+      splineEl.removeEventListener('pointermove', logEvent);
+    };
+  }, [isLoaded, isMobile]);
 
   const handleLoad = () => {
     console.log('✅ Spline scene loaded successfully');
@@ -63,42 +86,88 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
   const shouldShowPlaceholder = !sceneUrl || hasError;
 
   return (
-    <div className="flex items-center justify-center animate-fade-in-up-delayed">
-      <div className="relative w-full aspect-square max-w-[600px] group">
-        {/* Outer glow ring */}
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-[2rem] blur-2xl group-hover:blur-3xl transition-all duration-500" />
+    <div 
+      className="absolute inset-0 flex items-center justify-end"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      style={{ 
+        zIndex: 30,
+        pointerEvents: 'none'
+      }}
+    >
+      {/* Robot container - Flexbox aligned, takes 45% width on right side */}
+      <div 
+        className="relative w-full lg:w-[45%] h-[600px] md:h-[700px] lg:h-[800px] overflow-visible" 
+        style={{ pointerEvents: 'none' }}
+      >
         
-        {/* Main container */}
-        <div className="relative h-full rounded-[2rem] overflow-hidden shadow-2xl">
-          {/* Show placeholder while loading or if error */}
-          {(!isLoaded || shouldShowPlaceholder) && <PlaceholderState />}
-          
-          {/* Spline scene */}
-          {sceneUrl && !hasError && (
+        {/* Ambient glow layers - positioned around robot */}
+        <div 
+          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-cyan-500/20 to-purple-500/20 blur-[140px] transition-all duration-1000 pointer-events-none ${
+            isHovering ? 'scale-110 opacity-100' : 'scale-100 opacity-70'
+          }`}
+        />
+        
+        <div className="absolute left-1/3 top-1/3 w-[350px] h-[350px] bg-cyan-400/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
+        <div className="absolute right-1/4 bottom-1/3 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[120px] animate-pulse pointer-events-none" style={{ animationDelay: '1s' }} />
+        
+        {/* Show placeholder while loading or if error */}
+        {(!isLoaded || shouldShowPlaceholder) && <PlaceholderState />}
+        
+        {/* Main Spline robot - centered within its container */}
+        {sceneUrl && !hasError && (
+          <div 
+            ref={splineRef}
+            className={`absolute inset-0 transition-all duration-700 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              overflow: 'visible',
+              pointerEvents: isMobile ? 'none' : 'auto',
+              zIndex: 50,
+            }}
+          >
+            {/* Spline component wrapper */}
             <div 
-              className={`absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-[2rem] border-2 border-cyan-400/30 backdrop-blur-md overflow-hidden transition-opacity duration-700 ${
-                isLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
+              style={{ 
+                width: '100%', 
+                height: '100%',
+                overflow: 'visible',
+                position: 'relative',
+                pointerEvents: isMobile ? 'none' : 'auto',
+              }}
             >
-              {/* Grid pattern overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-10" />
-              
-              {/* Spline component */}
-              <div className={`w-full h-full ${isMobile ? 'pointer-events-none' : ''}`}>
-                <Spline
-                  scene={sceneUrl}
-                  onLoad={handleLoad}
-                  onError={handleError}
-                  className="w-full h-full"
-                />
-              </div>
+              <Spline
+                scene={sceneUrl}
+                onLoad={handleLoad}
+                onError={handleError}
+                style={{ 
+                  width: '100%', 
+                  height: '100%',
+                  overflow: 'visible',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  pointerEvents: isMobile ? 'none' : 'auto',
+                }}
+              />
             </div>
-          )}
-        </div>
+          </div>
+        )}
         
-        {/* Corner accents */}
-        <div className="absolute -top-6 -right-6 w-32 h-32 bg-cyan-500/30 rounded-full blur-2xl group-hover:blur-3xl transition-all duration-500" />
-        <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-purple-500/30 rounded-full blur-2xl group-hover:blur-3xl transition-all duration-500" />
+        {/* Subtle accent glows */}
+        <div 
+          className={`absolute top-10 right-10 w-32 h-32 bg-cyan-500/12 rounded-full blur-2xl transition-all duration-1000 pointer-events-none ${
+            isHovering ? 'scale-125 opacity-100' : 'scale-100 opacity-60'
+          }`}
+          style={{ zIndex: 5 }}
+        />
+        <div 
+          className={`absolute bottom-16 left-10 w-40 h-40 bg-purple-500/12 rounded-full blur-2xl transition-all duration-1000 pointer-events-none ${
+            isHovering ? 'scale-125 opacity-100' : 'scale-100 opacity-60'
+          }`}
+          style={{ zIndex: 5 }}
+        />
       </div>
     </div>
   );

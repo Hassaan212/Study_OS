@@ -16,12 +16,16 @@ export default function Home() {
       <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-cyan-400/10 rounded-full blur-[80px] animate-float" />
       <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/10 rounded-full blur-[80px] animate-float-delayed" />
       
-      <main className="relative min-h-screen flex items-center">
-        <div className="container mx-auto px-6 lg:px-8 pt-32 md:pt-20 pb-20 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+      <main className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Robot Background - Positioned naturally on the right */}
+        <HeroSpline />
+        
+        {/* Content Grid - Creates balanced layout */}
+        <div className="container mx-auto px-6 lg:px-8 pt-32 md:pt-20 pb-20 lg:py-32 relative z-20 pointer-events-none">
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
             
-            {/* Left side - Content */}
-            <div className="space-y-8 md:space-y-10 animate-fade-in-up">
+            {/* Left Content - Takes up 55% of space */}
+            <div className="lg:col-span-7 space-y-8 md:space-y-10 animate-fade-in-up pointer-events-auto">
               {/* Badge */}
               <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 backdrop-blur-sm shadow-lg shadow-cyan-500/10">
                 <span className="text-sm font-medium text-cyan-300 tracking-wide">
@@ -33,18 +37,18 @@ export default function Home() {
               <div className="space-y-5 md:space-y-6">
                 <div className="relative inline-block">
                   {/* Glow behind heading */}
-                  <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-cyan-400/30 to-purple-400/30" />
-                  <h1 className="relative text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl">
+                  <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-cyan-400/30 to-purple-400/30 pointer-events-none" />
+                  <h1 className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white tracking-tighter drop-shadow-2xl">
                     StudyOS
                   </h1>
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-400 leading-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-400 leading-tight">
                   Your AI-Powered Academic Workspace
                 </h2>
               </div>
               
               {/* Description */}
-              <p className="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-xl font-light">
+              <p className="text-lg sm:text-xl md:text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-xl font-light">
                 Organize semesters, generate notes, prepare for exams, and track academic progress in one intelligent workspace.
               </p>
               
@@ -60,14 +64,8 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Right side - Spline 3D Visual */}
-            {/* 
-              Spline 3D Scene Integration
-              Scene URL: https://prod.spline.design/v2DNFUffljiKNFGE/scene.splinecode
-              Falls back to placeholder if scene fails to load.
-              Optimized for mobile with disabled pointer events.
-            */}
-            <HeroSpline />
+            {/* Right Space - Reserved for robot (45% of space) */}
+            <div className="hidden lg:block lg:col-span-5 pointer-events-none"></div>
             
           </div>
         </div>

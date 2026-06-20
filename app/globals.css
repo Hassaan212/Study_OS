@@ -86,4 +86,17 @@ body {
     animation: slide-in 0.3s ease-out forwards;
     opacity: 0;
   }
+  
+  @keyframes float-robot {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  .animate-float-robot {
+    animation: float-robot 6s ease-in-out infinite;
+  }
 }
