@@ -17,11 +17,11 @@ export default function Home() {
       <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/10 rounded-full blur-[80px] animate-float-delayed" />
       
       <main className="relative min-h-screen flex items-center">
-        <div className="container mx-auto px-6 lg:px-8 py-20 lg:py-32">
+        <div className="container mx-auto px-6 lg:px-8 pt-32 md:pt-20 pb-20 lg:py-32">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             
             {/* Left side - Content */}
-            <div className="space-y-10 animate-fade-in-up">
+            <div className="space-y-8 md:space-y-10 animate-fade-in-up">
               {/* Badge */}
               <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 backdrop-blur-sm shadow-lg shadow-cyan-500/10">
                 <span className="text-sm font-medium text-cyan-300 tracking-wide">
@@ -30,31 +30,31 @@ export default function Home() {
               </div>
               
               {/* Heading */}
-              <div className="space-y-6">
+              <div className="space-y-5 md:space-y-6">
                 <div className="relative inline-block">
                   {/* Glow behind heading */}
                   <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-cyan-400/30 to-purple-400/30" />
-                  <h1 className="relative text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl">
+                  <h1 className="relative text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl">
                     StudyOS
                   </h1>
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-400 leading-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-400 leading-tight">
                   Your AI-Powered Academic Workspace
                 </h2>
               </div>
               
               {/* Description */}
-              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-xl font-light">
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-xl font-light">
                 Organize semesters, generate notes, prepare for exams, and track academic progress in one intelligent workspace.
               </p>
               
               {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-5 pt-4">
-                <button className="group relative px-10 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50">
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-5 pt-2 md:pt-4">
+                <button className="group relative px-8 sm:px-10 py-4 sm:py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base sm:text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50">
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative">Get Started</span>
                 </button>
-                <button className="group px-10 py-5 rounded-xl border-2 border-cyan-400/40 text-cyan-300 font-bold text-lg backdrop-blur-sm transition-all duration-300 hover:bg-cyan-500/10 hover:border-cyan-400/60 hover:shadow-lg hover:shadow-cyan-500/20 hover:scale-105">
+                <button className="group px-8 sm:px-10 py-4 sm:py-5 rounded-xl border-2 border-cyan-400/40 text-cyan-300 font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 hover:bg-cyan-500/10 hover:border-cyan-400/60 hover:shadow-lg hover:shadow-cyan-500/20 hover:scale-105">
                   Watch Demo
                 </button>
               </div>

@@ -54,6 +54,17 @@ body {
     }
   }
   
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -68,6 +79,11 @@ body {
   
   .animate-fade-in-up-delayed {
     animation: fade-in-up 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+  
+  .animate-slide-in {
+    animation: slide-in 0.3s ease-out forwards;
     opacity: 0;
   }
 }
