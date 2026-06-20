@@ -17,8 +17,8 @@ export default function Home() {
       <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/10 rounded-full blur-[80px] animate-float-delayed" />
       
       <main className="relative min-h-screen flex items-center">
-        <div className="container mx-auto px-6 lg:px-8 py-12">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="container mx-auto px-6 lg:px-8 py-20 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             
             {/* Left side - Content */}
             <div className="space-y-10 animate-fade-in-up">
@@ -68,20 +68,20 @@ export default function Home() {
       </main>
 
       {/* Why StudyOS Section */}
-      <section className="relative py-24 px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Why StudyOS?
             </h2>
-            <p className="text-xl md:text-2xl text-gray-400 font-light">
+            <p className="text-lg md:text-xl text-gray-400 font-light max-w-3xl mx-auto">
               Built for students. Not just conversations.
             </p>
           </div>
 
           {/* Feature Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Card 1 */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s', opacity: 0 }}>
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
@@ -170,14 +170,14 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="relative py-24 px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-20 animate-fade-in-up">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               How StudyOS Works
             </h2>
-            <p className="text-xl md:text-2xl text-gray-400 font-light">
+            <p className="text-lg md:text-xl text-gray-400 font-light max-w-3xl mx-auto">
               From syllabus to exam preparation in minutes.
             </p>
           </div>
@@ -190,7 +190,7 @@ export default function Home() {
             </div>
 
             {/* Steps Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Step 1 */}
               <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s', opacity: 0 }}>
                 {/* Glow effect */}
@@ -310,20 +310,20 @@ export default function Home() {
       </section>
 
       {/* Dashboard Preview Section */}
-      <section className="relative py-24 px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               See StudyOS In Action
             </h2>
-            <p className="text-xl md:text-2xl text-gray-400 font-light max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-400 font-light max-w-3xl mx-auto">
               Everything you need to manage your academic life in one intelligent workspace.
             </p>
           </div>
 
           {/* Dashboard Mockup */}
-          <div className="relative animate-fade-in-up" style={{ animationDelay: '0.2s', opacity: 0 }}>
+          <div className="relative animate-fade-in-up mb-12" style={{ animationDelay: '0.2s', opacity: 0 }}>
             {/* Outer glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-3xl blur-3xl" />
             
@@ -471,20 +471,20 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="relative py-24 px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Loved by Students Everywhere
             </h2>
-            <p className="text-xl md:text-2xl text-gray-400 font-light">
+            <p className="text-lg md:text-xl text-gray-400 font-light max-w-3xl mx-auto">
               Students are saving hours every week using StudyOS.
             </p>
           </div>
 
           {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {/* Testimonial 1 */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s', opacity: 0 }}>
@@ -596,24 +596,24 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="relative py-24 px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
         {/* Background glow effects */}
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" />
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
         
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Simple Pricing For Every Student
             </h2>
-            <p className="text-xl md:text-2xl text-gray-400 font-light">
+            <p className="text-lg md:text-xl text-gray-400 font-light max-w-3xl mx-auto">
               Start free and upgrade when you need more AI-powered features.
             </p>
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch lg:items-center">
             
             {/* Free Plan */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s', opacity: 0 }}>
@@ -753,7 +753,7 @@ export default function Home() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative py-32 px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
         {/* Background glow effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full blur-[150px] animate-pulse" />
         
@@ -767,12 +767,12 @@ export default function Home() {
               {/* Grid pattern */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
               
-              <div className="relative space-y-8">
+              <div className="relative space-y-10">
                 <div className="space-y-6">
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
                     Ready to Transform Your Academic Workflow?
                   </h2>
-                  <p className="text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto">
+                  <p className="text-lg md:text-xl text-gray-300 font-light max-w-3xl mx-auto">
                     Join students using AI to organize subjects, generate notes, prepare for exams and stay ahead.
                   </p>
                 </div>
@@ -800,8 +800,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="relative border-t border-cyan-400/10 bg-gradient-to-b from-transparent to-cyan-500/5">
-        <div className="container mx-auto max-w-7xl px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+        <div className="container mx-auto max-w-7xl px-6 lg:px-8 py-12 lg:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-8 lg:mb-12">
             
             {/* Brand Column */}
             <div className="lg:col-span-2 space-y-4">
@@ -867,8 +867,8 @@ export default function Home() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-cyan-400/10">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="pt-6 lg:pt-8 border-t border-cyan-400/10">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
               {/* Copyright */}
               <p className="text-sm text-gray-400">
                 © 2026 StudyOS. All rights reserved.
