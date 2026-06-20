@@ -29,26 +29,39 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Spline 3D Integration
 
-The hero section includes a Spline 3D scene integration. To add your own scene:
+The hero section includes a production-ready Spline 3D scene integration component.
 
-1. Create or export your scene from [Spline](https://spline.design/)
-2. Get the public scene URL from Spline (e.g., `https://prod.spline.design/YOUR_SCENE_ID`)
-3. Open `app/page.tsx`
-4. Replace the `sceneUrl` prop in the `<HeroSpline>` component:
+### Adding Your Spline Scene
+
+1. **Create your 3D scene** at [Spline](https://spline.design/)
+2. **Export and get the public URL** from Spline (format: `https://prod.spline.design/YOUR_SCENE_ID/scene.splinecode`)
+3. **Open** `app/page.tsx`
+4. **Find** the `<HeroSpline />` component
+5. **Add your scene URL**:
 
 ```tsx
-<HeroSpline sceneUrl="https://prod.spline.design/YOUR_SCENE_URL_HERE" />
+<HeroSpline sceneUrl="https://prod.spline.design/YOUR_SCENE_ID/scene.splinecode" />
 ```
 
-### Features:
-- ⚡ Lazy loading for optimal performance
-- 🎨 Elegant loading state with animated indicators
-- 🛡️ Error handling with graceful fallback
-- 🌊 Smooth fade-in transitions
-- 📱 Fully responsive design
-- 🎯 Maintains layout integrity
+### Features
 
-If no scene URL is provided, the component will show a placeholder state.
+- ⚡ **Lazy loading** - Spline loads only when needed using Next.js dynamic imports
+- 🎨 **Automatic placeholder** - Shows elegant loading state while scene loads
+- 🛡️ **Error handling** - Falls back to placeholder if scene fails to load
+- 🌊 **Smooth transitions** - 700ms fade-in when scene is ready
+- 📱 **Fully responsive** - Adapts to all screen sizes
+- 🎯 **Zero layout shift** - Maintains dimensions during loading
+- 🔮 **Glassmorphism styling** - Matches the site's premium aesthetic
+
+### Technical Details
+
+- **Component**: `components/HeroSpline.tsx`
+- **Package**: `@splinetool/react-spline` (already installed)
+- **Loading**: Dynamic import with SSR disabled for optimal performance
+- **States**: Loading → Loaded or Error → Fallback
+- **No URL provided**: Automatically shows placeholder (safe default)
+
+If no `sceneUrl` is provided, the component gracefully displays the placeholder visual with no errors.
 
 ## Tech Stack
 

@@ -61,6 +61,12 @@ export default function Home() {
             </div>
             
             {/* Right side - Spline 3D Visual */}
+            {/* 
+              Spline 3D Scene Integration
+              Scene URL: https://prod.spline.design/v2DNFUffljiKNFGE/scene.splinecode
+              Falls back to placeholder if scene fails to load.
+              Optimized for mobile with disabled pointer events.
+            */}
             <HeroSpline />
             
           </div>
