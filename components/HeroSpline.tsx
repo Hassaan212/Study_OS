@@ -87,12 +87,11 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
 
   return (
     <div 
-      className="absolute inset-0 flex items-center justify-end"
+      className="relative w-full h-full flex items-center justify-end"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       style={{ 
-        zIndex: 30,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
       }}
     >
       {/* Robot container - Flexbox aligned, takes 45% width on right side */}
@@ -101,15 +100,49 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
         style={{ pointerEvents: 'none' }}
       >
         
-        {/* Ambient glow layers - positioned around robot */}
+        {/* ENHANCED PREMIUM AI AURA - Multi-layered radial glows */}
+        
+        {/* Core cyan glow - Robot head/face area - Bright and focused */}
+        <div 
+          className="absolute left-1/2 top-[30%] -translate-x-1/2 w-[300px] h-[300px] pointer-events-none"
+          style={{ zIndex: 1 }}
+        >
+          <div className="absolute inset-0 bg-cyan-400/40 rounded-full blur-[80px] animate-pulse" />
+          <div className="absolute inset-0 bg-cyan-300/30 rounded-full blur-[60px]" />
+        </div>
+        
+        {/* Large purple glow - Upper body - Creates depth */}
+        <div 
+          className="absolute left-1/2 top-[45%] -translate-x-1/2 w-[550px] h-[550px] pointer-events-none"
+          style={{ zIndex: 0 }}
+        >
+          <div className="absolute inset-0 bg-purple-500/35 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div className="absolute inset-0 bg-purple-400/25 rounded-full blur-[100px]" />
+        </div>
+        
+        {/* Blended ambient base layer */}
         <div 
           className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-cyan-500/20 to-purple-500/20 blur-[140px] transition-all duration-1000 pointer-events-none ${
             isHovering ? 'scale-110 opacity-100' : 'scale-100 opacity-70'
           }`}
+          style={{ zIndex: 0 }}
         />
         
-        <div className="absolute left-1/3 top-1/3 w-[350px] h-[350px] bg-cyan-400/10 rounded-full blur-[100px] animate-pulse pointer-events-none" />
-        <div className="absolute right-1/4 bottom-1/3 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[120px] animate-pulse pointer-events-none" style={{ animationDelay: '1s' }} />
+        {/* Depth layer - Light falloff cyan accent */}
+        <div className="absolute left-1/3 top-1/3 w-[350px] h-[350px] bg-cyan-400/15 rounded-full blur-[120px] animate-pulse pointer-events-none" style={{ zIndex: 0 }} />
+        
+        {/* Depth layer - Light falloff purple accent */}
+        <div className="absolute right-1/4 bottom-1/3 w-[400px] h-[400px] bg-purple-400/15 rounded-full blur-[140px] animate-pulse pointer-events-none" style={{ animationDelay: '1s', zIndex: 0 }} />
+        
+        {/* Energy field edge highlights - Adds dimensionality */}
+        <div 
+          className="absolute left-1/2 top-[25%] -translate-x-1/2 w-[200px] h-[200px] bg-cyan-300/25 rounded-full blur-[50px] pointer-events-none"
+          style={{ zIndex: 1 }}
+        />
+        <div 
+          className="absolute left-1/2 top-[50%] -translate-x-1/2 w-[350px] h-[350px] bg-purple-300/20 rounded-full blur-[90px] pointer-events-none"
+          style={{ zIndex: 0 }}
+        />
         
         {/* Show placeholder while loading or if error */}
         {(!isLoaded || shouldShowPlaceholder) && <PlaceholderState />}
@@ -155,7 +188,7 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
           </div>
         )}
         
-        {/* Subtle accent glows */}
+        {/* Subtle accent glows - Corner highlights */}
         <div 
           className={`absolute top-10 right-10 w-32 h-32 bg-cyan-500/12 rounded-full blur-2xl transition-all duration-1000 pointer-events-none ${
             isHovering ? 'scale-125 opacity-100' : 'scale-100 opacity-60'

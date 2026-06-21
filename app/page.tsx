@@ -5,61 +5,157 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-[#050816] overflow-hidden">
       <Navbar />
-      {/* Grid pattern background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:64px_64px]" />
       
-      {/* Background glow effects */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse" />
+      {/* ENHANCED PREMIUM BACKGROUND - Multi-layered depth */}
       
-      {/* Floating orbs */}
-      <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-cyan-400/10 rounded-full blur-[80px] animate-float" />
-      <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/10 rounded-full blur-[80px] animate-float-delayed" />
+      {/* Base gradient layer - Dark to blue-purple atmosphere */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028]" style={{ zIndex: 0 }} />
       
-      <main className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Robot Background - Positioned naturally on the right */}
-        <HeroSpline />
+      {/* Radial depth layer - Center bloom */}
+      <div 
+        className="absolute inset-0 opacity-40"
+        style={{
+          zIndex: 0,
+          background: 'radial-gradient(circle at 50% 40%, rgba(6, 182, 212, 0.08) 0%, rgba(168, 85, 247, 0.06) 35%, transparent 70%)'
+        }}
+      />
+      
+      {/* Secondary depth - Left side subtle blue */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          zIndex: 0,
+          background: 'radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.06) 0%, transparent 50%)'
+        }}
+      />
+      
+      {/* Secondary depth - Right side purple */}
+      <div 
+        className="absolute inset-0 opacity-35"
+        style={{
+          zIndex: 0,
+          background: 'radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 60%)'
+        }}
+      />
+      
+      {/* Grid pattern background - Enhanced contrast */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:64px_64px]" style={{ zIndex: 1 }} />
+      
+      {/* Background glow effects - Enhanced */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/25 rounded-full blur-[130px] animate-pulse" style={{ zIndex: 1 }} />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/25 rounded-full blur-[130px] animate-pulse" style={{ zIndex: 1 }} />
+      
+      {/* Floating orbs - Subtle accent lights */}
+      <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-cyan-400/12 rounded-full blur-[90px] animate-float" style={{ zIndex: 1 }} />
+      <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/12 rounded-full blur-[90px] animate-float-delayed" style={{ zIndex: 1 }} />
+      
+      <main className="relative flex items-center overflow-hidden" style={{ height: '100vh' }}>
+        {/* Robot Background - Positioned naturally on the right, CONSTRAINED to hero only */}
+        <div className="absolute inset-0" style={{ pointerEvents: 'none', zIndex: 1 }}>
+          <HeroSpline />
+        </div>
         
         {/* Content Grid - Creates balanced layout */}
         <div className="container mx-auto px-6 lg:px-8 pt-32 md:pt-20 pb-20 lg:py-32 relative z-20 pointer-events-none">
           <div className="grid lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content - Takes up 55% of space */}
-            <div className="lg:col-span-7 space-y-8 md:space-y-10 animate-fade-in-up pointer-events-auto">
-              {/* Badge */}
-              <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 backdrop-blur-sm shadow-lg shadow-cyan-500/10">
+            <div className="lg:col-span-7 space-y-10 md:space-y-12 pointer-events-auto">
+              
+              {/* Badge - Staggered entrance */}
+              <div 
+                className="inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 backdrop-blur-sm shadow-lg shadow-cyan-500/10 animate-fade-in-up"
+                style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}
+              >
                 <span className="text-sm font-medium text-cyan-300 tracking-wide">
                   AI-Powered Academic Workspace
                 </span>
               </div>
               
-              {/* Heading */}
-              <div className="space-y-5 md:space-y-6">
+              {/* Heading - Staggered entrance */}
+              <div 
+                className="space-y-6 md:space-y-7 animate-fade-in-up"
+                style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}
+              >
                 <div className="relative inline-block">
                   {/* Glow behind heading */}
                   <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-cyan-400/30 to-purple-400/30 pointer-events-none" />
-                  <h1 className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white tracking-tighter drop-shadow-2xl">
+                  <h1 className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white tracking-tighter leading-[0.95] drop-shadow-2xl">
                     StudyOS
                   </h1>
                 </div>
-                <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-400 leading-tight">
+                
+                {/* Subtitle with subtle text glow */}
+                <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-400 leading-tight" style={{ textShadow: '0 0 40px rgba(6, 182, 212, 0.3)' }}>
                   Your AI-Powered Academic Workspace
                 </h2>
               </div>
               
-              {/* Description */}
-              <p className="text-lg sm:text-xl md:text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-xl font-light">
+              {/* Description - Staggered entrance, improved readability */}
+              <p 
+                className="text-lg sm:text-xl md:text-xl lg:text-2xl text-gray-300/90 leading-relaxed max-w-xl font-light animate-fade-in-up"
+                style={{ 
+                  animationDelay: '0.3s', 
+                  animationFillMode: 'backwards',
+                  letterSpacing: '0.01em'
+                }}
+              >
                 Organize semesters, generate notes, prepare for exams, and track academic progress in one intelligent workspace.
               </p>
               
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 md:gap-5 pt-2 md:pt-4">
-                <button className="group relative px-8 sm:px-10 py-4 sm:py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base sm:text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50">
+              {/* Buttons - Staggered entrance */}
+              <div 
+                className="flex flex-col sm:flex-row gap-4 md:gap-5 pt-2 animate-fade-in-up"
+                style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}
+              >
+                {/* Primary CTA - Premium with light sweep */}
+                <button className="group relative px-10 sm:px-12 py-5 sm:py-6 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base sm:text-lg overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40">
+                  {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative">Get Started</span>
+                  
+                  {/* Moving light sweep effect */}
+                  <div 
+                    className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+                      width: '50%',
+                    }}
+                  />
+                  
+                  {/* Subtle glow on hover */}
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl bg-gradient-to-r from-cyan-400/50 to-purple-400/50" style={{ zIndex: -1 }} />
+                  
+                  <span className="relative flex items-center justify-center gap-2">
+                    Get Started
+                    <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
                 </button>
-                <button className="group px-8 sm:px-10 py-4 sm:py-5 rounded-xl border-2 border-cyan-400/40 text-cyan-300 font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 hover:bg-cyan-500/10 hover:border-cyan-400/60 hover:shadow-lg hover:shadow-cyan-500/20 hover:scale-105">
-                  Watch Demo
+                
+                {/* Secondary CTA - Elegant premium */}
+                <button className="group relative px-10 sm:px-12 py-5 sm:py-6 rounded-xl border-2 border-cyan-400/40 text-cyan-300 font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:border-cyan-400/70 overflow-hidden shadow-lg shadow-transparent hover:shadow-cyan-500/20">
+                  {/* Background glow on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* Subtle shimmer effect */}
+                  <div 
+                    className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.15), transparent)',
+                      width: '50%',
+                    }}
+                  />
+                  
+                  {/* Outer glow on hover */}
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl bg-cyan-400/30" style={{ zIndex: -1 }} />
+                  
+                  <span className="relative flex items-center justify-center gap-2">
+                    Watch Demo
+                    <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
                 </button>
               </div>
             </div>
