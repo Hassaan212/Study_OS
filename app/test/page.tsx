@@ -1,11 +1,13 @@
 'use client';
 
-import Spline from '@splinetool/react-spline';
+import Spline from '@splinetool/react-spline/next';
 
-export default function Test() {
+export default function Home() {
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <Spline scene="https://prod.spline.design/v2DNFUffljiKNFGE/scene.splinecode" />
-    </div>
+    <main>
+      <Spline
+        scene="https://prod.spline.design/KpxSW506NeuHw64X/scene.splinecode" 
+      />
+    </main>
   );
 }
