@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
+import Sidebar from '@/components/Sidebar';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -50,7 +51,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#050816] overflow-hidden">
+    <>
+      <Sidebar />
+      <div className="relative min-h-screen bg-[#050816] overflow-hidden lg:ml-72">
       {/* Background layers - matching landing page */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028] pointer-events-none" />
       
@@ -179,40 +182,108 @@ export default function DashboardPage() {
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
           
-          {/* Card 1: Study Progress */}
-          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
+          {/* Card 1: Study Progress - Expanded */}
+          <div className="relative group animate-fade-in-up md:col-span-2" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl border-2 border-cyan-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-cyan-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-cyan-500/25">
+            <div className="relative bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl border-2 border-cyan-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-cyan-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-cyan-500/25 h-full flex flex-col">
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
-              <div className="relative">
+              <div className="relative flex-1 flex flex-col">
                 <h3 className="text-xl font-bold text-white mb-6">Study Progress</h3>
-                <div className="flex items-center justify-center mb-8">
-                  <div className="relative w-36 h-36">
-                    <svg className="transform -rotate-90 w-36 h-36">
-                      <circle cx="72" cy="72" r="64" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-white/10" />
-                      <circle cx="72" cy="72" r="64" stroke="currentColor" strokeWidth="10" fill="transparent" strokeDasharray="402" strokeDashoffset="100.5" className="text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" strokeLinecap="round" />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-3xl font-black text-white">75%</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center flex-1">
+                  {/* Progress Circle */}
+                  <div className="flex items-center justify-center">
+                    <div className="relative w-44 h-44">
+                      {/* Subtle outer glow effect */}
+                      <div className="absolute inset-0 rounded-full bg-cyan-400/5 blur-xl"></div>
+                      
+                      {/* SVG Progress Ring */}
+                      <svg className="transform -rotate-90 w-44 h-44 relative z-10" style={{ filter: 'drop-shadow(0 0 4px rgba(6, 182, 212, 0.15))' }}>
+                        {/* Background circle */}
+                        <circle 
+                          cx="88" 
+                          cy="88" 
+                          r="76" 
+                          stroke="currentColor" 
+                          strokeWidth="14" 
+                          fill="transparent" 
+                          className="text-white/10"
+                        />
+                        
+                        {/* Gradient definition */}
+                        <defs>
+                          <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#06b6d4" stopOpacity="1" />
+                            <stop offset="50%" stopColor="#3b82f6" stopOpacity="1" />
+                            <stop offset="100%" stopColor="#8b5cf6" stopOpacity="1" />
+                          </linearGradient>
+                        </defs>
+                        
+                        {/* Progress circle with gradient */}
+                        <circle 
+                          cx="88" 
+                          cy="88" 
+                          r="76" 
+                          stroke="url(#progressGradient)" 
+                          strokeWidth="14" 
+                          fill="transparent" 
+                          strokeDasharray="477" 
+                          strokeDashoffset="119" 
+                          strokeLinecap="round"
+                          style={{ 
+                            filter: 'drop-shadow(0 0 3px rgba(6, 182, 212, 0.2))',
+                            transition: 'stroke-dashoffset 1s ease-in-out'
+                          }}
+                        />
+                      </svg>
+                      
+                      {/* Center content */}
+                      <div className="absolute inset-0 flex items-center justify-center z-20">
+                        <div className="text-center">
+                          <span className="text-4xl font-black bg-gradient-to-br from-white via-white to-cyan-100 bg-clip-text text-transparent">
+                            75%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Statistics Grid */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm">
+                      <p className="text-gray-400 text-xs font-medium mb-2">Hours Today</p>
+                      <p className="text-white font-black text-3xl">2.5h</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm">
+                      <p className="text-gray-400 text-xs font-medium mb-2">Hours This Week</p>
+                      <p className="text-white font-black text-3xl">12.5h</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm">
+                      <p className="text-gray-400 text-xs font-medium mb-2">Tasks Today</p>
+                      <p className="text-white font-black text-3xl">3/5</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm">
+                      <p className="text-gray-400 text-xs font-medium mb-2">Tasks Completed</p>
+                      <p className="text-white font-black text-3xl">24/32</p>
                     </div>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm font-medium">Hours this week</span>
-                    <span className="text-white font-bold text-lg">12.5h</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm font-medium">Tasks completed</span>
-                    <span className="text-white font-bold text-lg">24/32</span>
+                
+                {/* Current Subject */}
+                <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-2 border-cyan-400/20 backdrop-blur-sm">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-gray-300 text-sm font-medium mb-1">Current Subject</p>
+                      <p className="text-white font-bold text-lg">Calculus II</p>
+                    </div>
+                    <div className="text-3xl">📐</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Card 2: Study Streak */}
+          {/* Card 2: Study Streak - Enhanced */}
           <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-red-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
             <div className="relative bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-3xl border-2 border-orange-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-orange-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-orange-500/25">
@@ -227,47 +298,35 @@ export default function DashboardPage() {
                   <div className="text-5xl font-black text-white mb-2">7 Days</div>
                   <p className="text-orange-300 text-base font-bold">Current Streak</p>
                 </div>
-                <div className="bg-white/5 rounded-2xl p-4 border-2 border-white/10 backdrop-blur-sm">
-                  <p className="text-gray-200 text-sm text-center italic font-medium">
-                    "Keep going! You're building great habits 💪"
-                  </p>
+                
+                {/* Additional Stats */}
+                <div className="space-y-3 mb-4">
+                  <div className="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+                    <span className="text-gray-300 text-sm font-medium">Best Streak</span>
+                    <span className="text-orange-300 font-bold text-base">14 Days</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/10">
+                    <span className="text-gray-300 text-sm font-medium">This Month</span>
+                    <span className="text-orange-300 font-bold text-base">18 Sessions</span>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3: Quick Actions */}
-          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl border-2 border-purple-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-purple-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-purple-500/25">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
-              <div className="relative">
-                <h3 className="text-xl font-bold text-white mb-6">Quick Actions</h3>
-                <div className="space-y-3">
-                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-2 border-cyan-400/30 text-white font-semibold transition-all duration-300 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-cyan-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
-                    <span className="text-2xl">📚</span>
-                    <span>Create Study Plan</span>
-                  </button>
-                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-2 border-purple-400/30 text-white font-semibold transition-all duration-300 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
-                    <span className="text-2xl">🤖</span>
-                    <span>AI Assistant</span>
-                  </button>
-                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-2 border-blue-400/30 text-white font-semibold transition-all duration-300 hover:from-blue-500/30 hover:to-cyan-500/30 hover:border-blue-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-blue-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
-                    <span className="text-2xl">📝</span>
-                    <span>Notes</span>
-                  </button>
-                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-2 border-green-400/30 text-white font-semibold transition-all duration-300 hover:from-green-500/30 hover:to-emerald-500/30 hover:border-green-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-green-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
-                    <span className="text-2xl">📊</span>
-                    <span>Analytics</span>
-                  </button>
+                
+                {/* Achievement Badge */}
+                <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-2xl p-4 border-2 border-orange-400/30 backdrop-blur-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="text-2xl">🏆</div>
+                    <div>
+                      <p className="text-white text-sm font-bold">Consistency Master</p>
+                      <p className="text-orange-200 text-xs font-medium">Keep up the momentum!</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Card 4: Recent Activity */}
-          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
+          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
             <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl border-2 border-blue-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-blue-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-blue-500/25">
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f608_1px,transparent_1px),linear-gradient(to_bottom,#3b82f608_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
@@ -302,7 +361,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Card 5: Upcoming Tasks */}
-          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
+          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
             <div className="relative bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-3xl border-2 border-green-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-green-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-green-500/25">
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98108_1px,transparent_1px),linear-gradient(to_bottom,#10b98108_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
@@ -337,7 +396,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Card 6: AI Recommendations */}
-          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
+          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-purple-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
             <div className="relative bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-3xl border-2 border-pink-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-pink-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-pink-500/25">
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#ec489908_1px,transparent_1px),linear-gradient(to_bottom,#ec489908_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
@@ -370,5 +429,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
