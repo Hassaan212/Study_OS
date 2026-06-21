@@ -63,6 +63,10 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className="relative text-sm font-medium text-gray-300 hover:text-cyan-300 transition-all duration-300 group"
+                  onClick={() => {
+                    // Close mobile menu if open (harmless on desktop)
+                    setIsMobileMenuOpen(false);
+                  }}
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300" />

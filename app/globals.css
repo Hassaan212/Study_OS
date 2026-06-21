@@ -100,3 +100,13 @@ body {
     animation: float-robot 6s ease-in-out infinite;
   }
 }
+
+/* Smooth scrolling for anchor navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset for fixed navbar - accounts for navbar height + padding */
+section[id] {
+  scroll-margin-top: 120px;
+}

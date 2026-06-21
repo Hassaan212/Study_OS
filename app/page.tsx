@@ -168,7 +168,7 @@ export default function Home() {
       </main>
 
       {/* Why StudyOS Section */}
-      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
+      <section id="features" className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-20 animate-fade-in-up">
@@ -270,7 +270,7 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
+      <section id="how-it-works" className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-20 animate-fade-in-up">
@@ -410,7 +410,7 @@ export default function Home() {
       </section>
 
       {/* Dashboard Preview Section */}
-      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
+      <section id="ai-assistant" className="relative py-20 lg:py-32 px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-16 animate-fade-in-up">
@@ -696,7 +696,7 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="relative py-20 lg:py-32 px-6 lg:px-8">
+      <section id="pricing" className="relative py-20 lg:py-32 px-6 lg:px-8">
         {/* Background glow effects */}
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" />
         <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
