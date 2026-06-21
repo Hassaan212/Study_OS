@@ -65,29 +65,38 @@ export default function DashboardPage() {
       {/* Grid pattern background */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:64px_64px]" />
       
-      {/* Background glow effects */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[130px] animate-pulse pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cyan-500/20 rounded-full blur-[130px] animate-pulse pointer-events-none" />
+      {/* Enhanced Ambient Gradient Orbs */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-500/30 rounded-full blur-[140px] animate-pulse pointer-events-none" 
+           style={{ animationDuration: '8s' }} />
+      <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-cyan-500/30 rounded-full blur-[140px] animate-pulse pointer-events-none" 
+           style={{ animationDuration: '10s', animationDelay: '1s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px] animate-pulse pointer-events-none" 
+           style={{ animationDuration: '12s', animationDelay: '2s' }} />
       
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Top Section - User Welcome */}
-        <div className="mb-8 sm:mb-12 animate-fade-in-up">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mb-2">
-                Welcome back, <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">{userName}</span>
-              </h1>
-              <p className="text-gray-400 text-sm sm:text-base">{userEmail}</p>
-              <p className="text-gray-500 text-xs sm:text-sm mt-1">{getCurrentDate()}</p>
+        <div className="mb-10 sm:mb-16 animate-fade-in-up">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div className="relative">
+              {/* Animated glow behind heading */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-blue-500/20 rounded-3xl blur-2xl opacity-50 animate-pulse pointer-events-none" 
+                   style={{ animationDuration: '4s' }} />
+              <div className="relative">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-3">
+                  Welcome back, <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent animate-pulse" style={{ animationDuration: '3s' }}>{userName}</span>
+                </h1>
+                <p className="text-gray-300 text-base sm:text-lg font-medium">{userEmail}</p>
+                <p className="text-gray-500 text-sm sm:text-base mt-2">{getCurrentDate()}</p>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 text-cyan-400 text-sm font-semibold backdrop-blur-sm">
+            <div className="flex items-center gap-4">
+              <span className="px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/40 text-cyan-300 text-sm font-bold backdrop-blur-md shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:shadow-cyan-500/40 hover:border-cyan-400/60">
                 Free Plan
               </span>
               <button 
                 onClick={() => auth.signOut().then(() => router.push('/'))}
-                className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/20 backdrop-blur-sm"
+                className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm font-semibold transition-all duration-300 hover:bg-white/10 hover:border-white/20 backdrop-blur-md shadow-lg hover:shadow-xl hover:-translate-y-0.5"
               >
                 Sign Out
               </button>
@@ -95,35 +104,108 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          
-          {/* Card 1: Study Progress */}
-          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-2xl border border-cyan-400/30 backdrop-blur-xl p-6 hover:border-cyan-400/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none" />
-              <div className="relative">
-                <h3 className="text-lg font-bold text-white mb-4">Study Progress</h3>
-                <div className="flex items-center justify-center mb-6">
-                  <div className="relative w-32 h-32">
-                    <svg className="transform -rotate-90 w-32 h-32">
-                      <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/10" />
-                      <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="352" strokeDashoffset="88" className="text-cyan-400" strokeLinecap="round" />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-white">75%</span>
+        {/* Today's Goal Card - Hero Section */}
+        <div className="mb-10 sm:mb-14 animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
+          <div className="relative group">
+            {/* Outer glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            
+            {/* Main glass card */}
+            <div className="relative bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-blue-500/5 rounded-3xl border-2 border-cyan-400/30 backdrop-blur-2xl p-6 sm:p-7 transition-all duration-500 group-hover:border-cyan-400/50 group-hover:shadow-2xl group-hover:shadow-cyan-500/25">
+              {/* Grid pattern overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              
+              {/* Gradient shine overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
+              
+              {/* Content */}
+              <div className="relative space-y-5">
+                
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-black text-white mb-1">Today's Goal</h3>
+                    <p className="text-gray-300 text-sm font-medium">Keep the momentum going</p>
+                  </div>
+                  <div className="text-3xl sm:text-4xl">🎯</div>
+                </div>
+                
+                {/* Tasks Complete & Progress Bar */}
+                <div className="flex items-center justify-between gap-6">
+                  <div>
+                    <div className="text-4xl sm:text-5xl font-black text-white">3 / 5</div>
+                    <p className="text-gray-300 text-sm font-semibold mt-1">Tasks Complete</p>
+                  </div>
+                  
+                  {/* Progress Bar */}
+                  <div className="flex-1 max-w-xs space-y-2">
+                    <div className="relative h-4 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm border border-white/20">
+                      {/* Progress fill with gradient and glow */}
+                      <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full shadow-lg shadow-cyan-500/50 transition-all duration-1000">
+                        {/* Animated shimmer effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-400 font-medium">Progress</span>
+                      <span className="text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">60%</span>
                     </div>
                   </div>
                 </div>
-                <div className="space-y-3">
+                
+                {/* Motivational Message */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-2xl blur-xl pointer-events-none" />
+                  <div className="relative bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-2xl border border-cyan-400/30 p-4 backdrop-blur-sm">
+                    <div className="flex items-start gap-3">
+                      <div className="text-xl sm:text-2xl flex-shrink-0">💡</div>
+                      <div>
+                        <p className="text-white text-sm sm:text-base font-bold italic leading-relaxed">
+                          "Consistency beats intensity."
+                        </p>
+                        <p className="text-gray-300 text-xs mt-1.5 font-medium">
+                          Small daily progress compounds into extraordinary results.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Dashboard Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
+          
+          {/* Card 1: Study Progress */}
+          <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            <div className="relative bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl border-2 border-cyan-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-cyan-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-cyan-500/25">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
+              <div className="relative">
+                <h3 className="text-xl font-bold text-white mb-6">Study Progress</h3>
+                <div className="flex items-center justify-center mb-8">
+                  <div className="relative w-36 h-36">
+                    <svg className="transform -rotate-90 w-36 h-36">
+                      <circle cx="72" cy="72" r="64" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-white/10" />
+                      <circle cx="72" cy="72" r="64" stroke="currentColor" strokeWidth="10" fill="transparent" strokeDasharray="402" strokeDashoffset="100.5" className="text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" strokeLinecap="round" />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-3xl font-black text-white">75%</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Hours this week</span>
-                    <span className="text-white font-semibold">12.5h</span>
+                    <span className="text-gray-300 text-sm font-medium">Hours this week</span>
+                    <span className="text-white font-bold text-lg">12.5h</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Tasks completed</span>
-                    <span className="text-white font-semibold">24/32</span>
+                    <span className="text-gray-300 text-sm font-medium">Tasks completed</span>
+                    <span className="text-white font-bold text-lg">24/32</span>
                   </div>
                 </div>
               </div>
@@ -132,20 +214,21 @@ export default function DashboardPage() {
 
           {/* Card 2: Study Streak */}
           <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-2xl border border-orange-400/30 backdrop-blur-xl p-6 hover:border-orange-400/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ff660005_1px,transparent_1px),linear-gradient(to_bottom,#ff660005_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-red-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            <div className="relative bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-3xl border-2 border-orange-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-orange-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-orange-500/25">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ff660008_1px,transparent_1px),linear-gradient(to_bottom,#ff660008_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <div className="relative">
-                <h3 className="text-lg font-bold text-white mb-4">Study Streak</h3>
-                <div className="flex items-center justify-center mb-4">
-                  <div className="text-6xl">🔥</div>
+                <h3 className="text-xl font-bold text-white mb-6">Study Streak</h3>
+                <div className="flex items-center justify-center mb-6">
+                  <div className="text-7xl drop-shadow-[0_0_20px_rgba(251,146,60,0.5)] transition-transform duration-300 group-hover:scale-110">🔥</div>
                 </div>
-                <div className="text-center mb-4">
-                  <div className="text-4xl font-black text-white mb-1">7 Days</div>
-                  <p className="text-orange-400 text-sm font-medium">Current Streak</p>
+                <div className="text-center mb-6">
+                  <div className="text-5xl font-black text-white mb-2">7 Days</div>
+                  <p className="text-orange-300 text-base font-bold">Current Streak</p>
                 </div>
-                <div className="bg-white/5 rounded-xl p-3 border border-white/10">
-                  <p className="text-gray-300 text-sm text-center italic">
+                <div className="bg-white/5 rounded-2xl p-4 border-2 border-white/10 backdrop-blur-sm">
+                  <p className="text-gray-200 text-sm text-center italic font-medium">
                     "Keep going! You're building great habits 💪"
                   </p>
                 </div>
@@ -155,26 +238,27 @@ export default function DashboardPage() {
 
           {/* Card 3: Quick Actions */}
           <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl border border-purple-400/30 backdrop-blur-xl p-6 hover:border-purple-400/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f705_1px,transparent_1px),linear-gradient(to_bottom,#a855f705_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            <div className="relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl border-2 border-purple-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-purple-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-purple-500/25">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <div className="relative">
-                <h3 className="text-lg font-bold text-white mb-4">Quick Actions</h3>
+                <h3 className="text-xl font-bold text-white mb-6">Quick Actions</h3>
                 <div className="space-y-3">
-                  <button className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 text-white font-medium transition-all duration-300 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400/50 hover:scale-[1.02] active:scale-[0.98] text-left flex items-center gap-3">
-                    <span className="text-xl">📚</span>
+                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-2 border-cyan-400/30 text-white font-semibold transition-all duration-300 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-cyan-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
+                    <span className="text-2xl">📚</span>
                     <span>Create Study Plan</span>
                   </button>
-                  <button className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30 text-white font-medium transition-all duration-300 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/50 hover:scale-[1.02] active:scale-[0.98] text-left flex items-center gap-3">
-                    <span className="text-xl">🤖</span>
+                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-2 border-purple-400/30 text-white font-semibold transition-all duration-300 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
+                    <span className="text-2xl">🤖</span>
                     <span>AI Assistant</span>
                   </button>
-                  <button className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-400/30 text-white font-medium transition-all duration-300 hover:from-blue-500/30 hover:to-cyan-500/30 hover:border-blue-400/50 hover:scale-[1.02] active:scale-[0.98] text-left flex items-center gap-3">
-                    <span className="text-xl">📝</span>
+                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-2 border-blue-400/30 text-white font-semibold transition-all duration-300 hover:from-blue-500/30 hover:to-cyan-500/30 hover:border-blue-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-blue-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
+                    <span className="text-2xl">📝</span>
                     <span>Notes</span>
                   </button>
-                  <button className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400/30 text-white font-medium transition-all duration-300 hover:from-green-500/30 hover:to-emerald-500/30 hover:border-green-400/50 hover:scale-[1.02] active:scale-[0.98] text-left flex items-center gap-3">
-                    <span className="text-xl">📊</span>
+                  <button className="w-full px-5 py-4 rounded-2xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-2 border-green-400/30 text-white font-semibold transition-all duration-300 hover:from-green-500/30 hover:to-emerald-500/30 hover:border-green-400/60 hover:scale-[1.03] hover:shadow-lg hover:shadow-green-500/25 active:scale-[0.98] text-left flex items-center gap-4 backdrop-blur-sm">
+                    <span className="text-2xl">📊</span>
                     <span>Analytics</span>
                   </button>
                 </div>
@@ -184,31 +268,32 @@ export default function DashboardPage() {
 
           {/* Card 4: Recent Activity */}
           <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl border border-blue-400/30 backdrop-blur-xl p-6 hover:border-blue-400/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f605_1px,transparent_1px),linear-gradient(to_bottom,#3b82f605_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            <div className="relative bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl border-2 border-blue-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-blue-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-blue-500/25">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f608_1px,transparent_1px),linear-gradient(to_bottom,#3b82f608_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <div className="relative">
-                <h3 className="text-lg font-bold text-white mb-4">Recent Activity</h3>
+                <h3 className="text-xl font-bold text-white mb-6">Recent Activity</h3>
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2"></div>
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
+                    <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 mt-2 shadow-lg shadow-cyan-400/50"></div>
                     <div className="flex-1">
-                      <p className="text-white text-sm font-medium">Completed Math Assignment</p>
-                      <p className="text-gray-400 text-xs mt-1">2 hours ago</p>
+                      <p className="text-white text-sm font-semibold">Completed Math Assignment</p>
+                      <p className="text-gray-300 text-xs mt-1.5 font-medium">2 hours ago</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-purple-400 mt-2"></div>
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
+                    <div className="w-2.5 h-2.5 rounded-full bg-purple-400 mt-2 shadow-lg shadow-purple-400/50"></div>
                     <div className="flex-1">
-                      <p className="text-white text-sm font-medium">Studied Chemistry Notes</p>
-                      <p className="text-gray-400 text-xs mt-1">5 hours ago</p>
+                      <p className="text-white text-sm font-semibold">Studied Chemistry Notes</p>
+                      <p className="text-gray-300 text-xs mt-1.5 font-medium">5 hours ago</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-blue-400 mt-2"></div>
+                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-400 mt-2 shadow-lg shadow-blue-400/50"></div>
                     <div className="flex-1">
-                      <p className="text-white text-sm font-medium">AI Practice Session</p>
-                      <p className="text-gray-400 text-xs mt-1">Yesterday</p>
+                      <p className="text-white text-sm font-semibold">AI Practice Session</p>
+                      <p className="text-gray-300 text-xs mt-1.5 font-medium">Yesterday</p>
                     </div>
                   </div>
                 </div>
@@ -218,31 +303,32 @@ export default function DashboardPage() {
 
           {/* Card 5: Upcoming Tasks */}
           <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-2xl border border-green-400/30 backdrop-blur-xl p-6 hover:border-green-400/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98105_1px,transparent_1px),linear-gradient(to_bottom,#10b98105_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            <div className="relative bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-3xl border-2 border-green-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-green-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-green-500/25">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98108_1px,transparent_1px),linear-gradient(to_bottom,#10b98108_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <div className="relative">
-                <h3 className="text-lg font-bold text-white mb-4">Upcoming Tasks</h3>
+                <h3 className="text-xl font-bold text-white mb-6">Upcoming Tasks</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <input type="checkbox" className="w-4 h-4 rounded border-gray-400" />
+                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
+                    <input type="checkbox" className="w-5 h-5 rounded border-2 border-gray-400 transition-all duration-300 hover:border-green-400 cursor-pointer" />
                     <div className="flex-1">
-                      <p className="text-white text-sm font-medium">Physics Assignment</p>
-                      <p className="text-gray-400 text-xs">Due: Tomorrow</p>
+                      <p className="text-white text-sm font-semibold">Physics Assignment</p>
+                      <p className="text-gray-300 text-xs mt-1 font-medium">Due: Tomorrow</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <input type="checkbox" className="w-4 h-4 rounded border-gray-400" />
+                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
+                    <input type="checkbox" className="w-5 h-5 rounded border-2 border-gray-400 transition-all duration-300 hover:border-green-400 cursor-pointer" />
                     <div className="flex-1">
-                      <p className="text-white text-sm font-medium">Review Biology Chapter</p>
-                      <p className="text-gray-400 text-xs">Due: In 2 days</p>
+                      <p className="text-white text-sm font-semibold">Review Biology Chapter</p>
+                      <p className="text-gray-300 text-xs mt-1 font-medium">Due: In 2 days</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <input type="checkbox" className="w-4 h-4 rounded border-gray-400" />
+                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
+                    <input type="checkbox" className="w-5 h-5 rounded border-2 border-gray-400 transition-all duration-300 hover:border-green-400 cursor-pointer" />
                     <div className="flex-1">
-                      <p className="text-white text-sm font-medium">English Essay Draft</p>
-                      <p className="text-gray-400 text-xs">Due: Next week</p>
+                      <p className="text-white text-sm font-semibold">English Essay Draft</p>
+                      <p className="text-gray-300 text-xs mt-1 font-medium">Due: Next week</p>
                     </div>
                   </div>
                 </div>
@@ -252,26 +338,27 @@ export default function DashboardPage() {
 
           {/* Card 6: AI Recommendations */}
           <div className="relative group animate-fade-in-up" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="relative bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-2xl border border-pink-400/30 backdrop-blur-xl p-6 hover:border-pink-400/50 transition-all duration-300">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ec489905_1px,transparent_1px),linear-gradient(to_bottom,#ec489905_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-purple-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            <div className="relative bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-3xl border-2 border-pink-400/30 backdrop-blur-2xl p-7 transition-all duration-500 group-hover:border-pink-400/60 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-pink-500/25">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ec489908_1px,transparent_1px),linear-gradient(to_bottom,#ec489908_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <div className="relative">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xl">✨</span>
-                  <h3 className="text-lg font-bold text-white">AI Recommendations</h3>
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-2xl">✨</span>
+                  <h3 className="text-xl font-bold text-white">AI Recommendations</h3>
                 </div>
-                <div className="space-y-3">
-                  <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                    <p className="text-white text-sm font-medium mb-2">Focus on weak areas</p>
-                    <p className="text-gray-400 text-xs mb-3">Your calculus scores can improve with 30 min daily practice</p>
-                    <button className="text-cyan-400 text-xs font-medium hover:text-cyan-300 transition-colors">
+                <div className="space-y-4">
+                  <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+                    <p className="text-white text-sm font-bold mb-2">Focus on weak areas</p>
+                    <p className="text-gray-300 text-xs mb-4 leading-relaxed">Your calculus scores can improve with 30 min daily practice</p>
+                    <button className="text-cyan-300 text-xs font-bold hover:text-cyan-200 transition-all duration-300 hover:translate-x-1">
                       Start Practice →
                     </button>
                   </div>
-                  <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-                    <p className="text-white text-sm font-medium mb-2">Optimize study time</p>
-                    <p className="text-gray-400 text-xs mb-3">Studies show you learn best between 2-4 PM</p>
-                    <button className="text-cyan-400 text-xs font-medium hover:text-cyan-300 transition-colors">
+                  <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+                    <p className="text-white text-sm font-bold mb-2">Optimize study time</p>
+                    <p className="text-gray-300 text-xs mb-4 leading-relaxed">Studies show you learn best between 2-4 PM</p>
+                    <button className="text-cyan-300 text-xs font-bold hover:text-cyan-200 transition-all duration-300 hover:translate-x-1">
                       Adjust Schedule →
                     </button>
                   </div>
