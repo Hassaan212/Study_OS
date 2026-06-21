@@ -9,11 +9,11 @@ export default function Home() {
       {/* ENHANCED PREMIUM BACKGROUND - Multi-layered depth */}
       
       {/* Base gradient layer - Dark to blue-purple atmosphere */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028]" style={{ zIndex: 0 }} />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028] pointer-events-none" style={{ zIndex: 0 }} />
       
       {/* Radial depth layer - Center bloom */}
       <div 
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-40 pointer-events-none"
         style={{
           zIndex: 0,
           background: 'radial-gradient(circle at 50% 40%, rgba(6, 182, 212, 0.08) 0%, rgba(168, 85, 247, 0.06) 35%, transparent 70%)'
@@ -22,7 +22,7 @@ export default function Home() {
       
       {/* Secondary depth - Left side subtle blue */}
       <div 
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
           zIndex: 0,
           background: 'radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.06) 0%, transparent 50%)'
@@ -31,7 +31,7 @@ export default function Home() {
       
       {/* Secondary depth - Right side purple */}
       <div 
-        className="absolute inset-0 opacity-35"
+        className="absolute inset-0 opacity-35 pointer-events-none"
         style={{
           zIndex: 0,
           background: 'radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 60%)'
@@ -39,15 +39,15 @@ export default function Home() {
       />
       
       {/* Grid pattern background - Enhanced contrast */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:64px_64px]" style={{ zIndex: 1 }} />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:64px_64px]" style={{ zIndex: 1 }} />
       
       {/* Background glow effects - Enhanced */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/25 rounded-full blur-[130px] animate-pulse" style={{ zIndex: 1 }} />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/25 rounded-full blur-[130px] animate-pulse" style={{ zIndex: 1 }} />
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/25 rounded-full blur-[130px] animate-pulse pointer-events-none" style={{ zIndex: 1 }} />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/25 rounded-full blur-[130px] animate-pulse pointer-events-none" style={{ zIndex: 1 }} />
       
       {/* Floating orbs - Subtle accent lights */}
-      <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-cyan-400/12 rounded-full blur-[90px] animate-float" style={{ zIndex: 1 }} />
-      <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/12 rounded-full blur-[90px] animate-float-delayed" style={{ zIndex: 1 }} />
+      <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-cyan-400/12 rounded-full blur-[90px] animate-float pointer-events-none" style={{ zIndex: 1 }} />
+      <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/12 rounded-full blur-[90px] animate-float-delayed pointer-events-none" style={{ zIndex: 1 }} />
       
       <main className="relative flex items-center overflow-hidden" style={{ height: '100vh' }}>
         {/* Robot Background - Positioned naturally on the right, CONSTRAINED to hero only */}
@@ -184,9 +184,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Card 1 */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s', opacity: 0 }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
               <div className="relative h-full bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                 <div className="relative space-y-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,9 +205,9 @@ export default function Home() {
 
             {/* Card 2 */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.2s', opacity: 0 }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
               <div className="relative h-full bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                 <div className="relative space-y-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,9 +226,9 @@ export default function Home() {
 
             {/* Card 3 */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.3s', opacity: 0 }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
               <div className="relative h-full bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                 <div className="relative space-y-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,9 +247,9 @@ export default function Home() {
 
             {/* Card 4 */}
             <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.4s', opacity: 0 }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
               <div className="relative h-full bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                 <div className="relative space-y-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -285,8 +285,8 @@ export default function Home() {
           {/* Steps Container */}
           <div className="relative">
             {/* Connecting Line (Desktop) */}
-            <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/0 via-cyan-500/30 to-cyan-500/0">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-purple-500/30 to-purple-500/0 animate-pulse" />
+            <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500/0 via-cyan-500/30 to-cyan-500/0 pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-purple-500/30 to-purple-500/0 animate-pulse pointer-events-none" />
             </div>
 
             {/* Steps Grid */}
@@ -294,11 +294,11 @@ export default function Home() {
               {/* Step 1 */}
               <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s', opacity: 0 }}>
                 {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
                 
                 <div className="relative bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500 h-full">
                   {/* Grid pattern */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                   
                   <div className="relative space-y-6">
                     {/* Step number */}
@@ -308,7 +308,7 @@ export default function Home() {
                       </span>
                       {/* Icon with glow */}
                       <div className="relative">
-                        <div className="absolute inset-0 bg-cyan-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300" />
+                        <div className="absolute inset-0 bg-cyan-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 pointer-events-none" />
                         <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                           <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -332,11 +332,11 @@ export default function Home() {
               {/* Step 2 */}
               <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.2s', opacity: 0 }}>
                 {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
                 
                 <div className="relative bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500 h-full">
                   {/* Grid pattern */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                   
                   <div className="relative space-y-6">
                     {/* Step number */}
@@ -346,7 +346,7 @@ export default function Home() {
                       </span>
                       {/* Icon with glow */}
                       <div className="relative">
-                        <div className="absolute inset-0 bg-purple-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300" />
+                        <div className="absolute inset-0 bg-purple-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 pointer-events-none" />
                         <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                           <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -370,11 +370,11 @@ export default function Home() {
               {/* Step 3 */}
               <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.3s', opacity: 0 }}>
                 {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 pointer-events-none" />
                 
                 <div className="relative bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/20 backdrop-blur-md p-8 group-hover:border-cyan-400/40 transition-all duration-500 h-full">
                   {/* Grid pattern */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl" />
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
                   
                   <div className="relative space-y-6">
                     {/* Step number */}
@@ -384,7 +384,7 @@ export default function Home() {
                       </span>
                       {/* Icon with glow */}
                       <div className="relative">
-                        <div className="absolute inset-0 bg-cyan-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300" />
+                        <div className="absolute inset-0 bg-cyan-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 pointer-events-none" />
                         <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:scale-110 transition-transform duration-300">
                           <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -425,12 +425,12 @@ export default function Home() {
           {/* Dashboard Mockup */}
           <div className="relative animate-fade-in-up mb-12" style={{ animationDelay: '0.2s', opacity: 0 }}>
             {/* Outer glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-3xl blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-3xl blur-3xl pointer-events-none" />
             
             {/* Dashboard Container */}
             <div className="relative bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-3xl border border-cyan-400/30 backdrop-blur-xl overflow-hidden shadow-2xl">
               {/* Grid pattern overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
               
               {/* Dashboard Content */}
               <div className="relative flex flex-col lg:flex-row min-h-[600px]">
