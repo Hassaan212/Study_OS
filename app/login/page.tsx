@@ -1,6 +1,51 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    console.log('Login clicked');
+    setError('');
+    setLoading(true);
+
+    try {
+      // Sign in with Firebase Auth
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('Login success');
+      
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (err: any) {
+      console.error(err);
+      const errorCode = err.code;
+      
+      if (errorCode === 'auth/user-not-found') {
+        setError('No account found with this email. Please sign up.');
+      } else if (errorCode === 'auth/wrong-password') {
+        setError('Incorrect password. Please try again.');
+      } else if (errorCode === 'auth/invalid-email') {
+        setError('Invalid email address. Please check and try again.');
+      } else if (errorCode === 'auth/too-many-requests') {
+        setError('Too many failed attempts. Please try again later.');
+      } else {
+        setError('Failed to sign in. Please check your credentials.');
+      }
+      
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-[#050816] overflow-hidden flex items-center justify-center">
       {/* Background layers - matching landing page */}
@@ -46,10 +91,17 @@ export default function LoginPage() {
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
             
-            <div className="relative space-y-6">
+            <form onSubmit={handleSubmit} className="relative space-y-6">
               <h2 className="text-2xl font-bold text-white text-center mb-6">
                 Welcome Back
               </h2>
+
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
 
               {/* Email Input */}
               <div className="space-y-2">
@@ -59,8 +111,12 @@ export default function LoginPage() {
                 <input
                   type="email"
                   id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                  required
+                  disabled={loading}
+                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
@@ -72,8 +128,12 @@ export default function LoginPage() {
                 <input
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                  required
+                  disabled={loading}
+                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
@@ -85,7 +145,11 @@ export default function LoginPage() {
               </div>
 
               {/* Sign In Button */}
-              <button className="group relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40">
+              <button 
+                type="submit"
+                disabled={loading}
+                className="group relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div 
                   className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
@@ -94,7 +158,7 @@ export default function LoginPage() {
                     width: '50%',
                   }}
                 />
-                <span className="relative">Sign In</span>
+                <span className="relative">{loading ? 'Signing In...' : 'Sign In'}</span>
               </button>
 
               {/* Divider */}
@@ -118,7 +182,7 @@ export default function LoginPage() {
                   </Link>
                 </p>
               </div>
-            </div>
+            </form>
           </div>
         </div>
 

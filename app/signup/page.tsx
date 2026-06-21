@@ -1,6 +1,58 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 
 export default function SignupPage() {
+  const router = useRouter();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      // Create Firebase Auth account
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Create Firestore document
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        name,
+        email,
+        createdAt: new Date().toISOString(),
+      });
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (err: any) {
+      // Handle Firebase errors
+      const errorCode = err.code;
+      
+      if (errorCode === 'auth/email-already-in-use') {
+        setError('This email is already registered. Please sign in instead.');
+      } else if (errorCode === 'auth/weak-password') {
+        setError('Password is too weak. Please use at least 6 characters.');
+      } else if (errorCode === 'auth/invalid-email') {
+        setError('Invalid email address. Please check and try again.');
+      } else {
+        setError('An error occurred during signup. Please try again.');
+      }
+      
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-[#050816] overflow-hidden flex items-center justify-center py-12">
       {/* Background layers - matching landing page */}
@@ -46,10 +98,17 @@ export default function SignupPage() {
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff05_1px,transparent_1px),linear-gradient(to_bottom,#00ffff05_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
             
-            <div className="relative space-y-6">
+            <form onSubmit={handleSubmit} className="relative space-y-6">
               <h2 className="text-2xl font-bold text-white text-center mb-6">
                 Get Started Free
               </h2>
+
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
 
               {/* Name Input */}
               <div className="space-y-2">
@@ -59,8 +118,12 @@ export default function SignupPage() {
                 <input
                   type="text"
                   id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                  required
+                  disabled={loading}
+                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
@@ -72,8 +135,12 @@ export default function SignupPage() {
                 <input
                   type="email"
                   id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                  required
+                  disabled={loading}
+                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
@@ -85,11 +152,16 @@ export default function SignupPage() {
                 <input
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
+                  required
+                  minLength={6}
+                  disabled={loading}
+                  className="w-full px-4 py-3 rounded-xl bg-[#050816]/50 border border-cyan-400/20 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  Must be at least 8 characters
+                  Must be at least 6 characters
                 </p>
               </div>
 
@@ -98,7 +170,9 @@ export default function SignupPage() {
                 <input
                   type="checkbox"
                   id="terms"
-                  className="mt-1 w-4 h-4 rounded border-cyan-400/30 bg-[#050816]/50 text-cyan-500 focus:ring-2 focus:ring-cyan-400/20"
+                  required
+                  disabled={loading}
+                  className="mt-1 w-4 h-4 rounded border-cyan-400/30 bg-[#050816]/50 text-cyan-500 focus:ring-2 focus:ring-cyan-400/20 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <label htmlFor="terms" className="text-xs text-gray-400 leading-relaxed">
                   I agree to the{' '}
@@ -113,7 +187,11 @@ export default function SignupPage() {
               </div>
 
               {/* Create Account Button */}
-              <button className="group relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40">
+              <button 
+                type="submit"
+                disabled={loading}
+                className="group relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div 
                   className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
@@ -122,7 +200,7 @@ export default function SignupPage() {
                     width: '50%',
                   }}
                 />
-                <span className="relative">Create Account</span>
+                <span className="relative">{loading ? 'Creating Account...' : 'Create Account'}</span>
               </button>
 
               {/* Divider */}
@@ -146,7 +224,7 @@ export default function SignupPage() {
                   </Link>
                 </p>
               </div>
-            </div>
+            </form>
           </div>
         </div>
 
