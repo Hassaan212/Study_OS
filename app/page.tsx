@@ -49,7 +49,7 @@ export default function Home() {
       <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-cyan-400/12 rounded-full blur-[90px] animate-float pointer-events-none" style={{ zIndex: 1 }} />
       <div className="absolute bottom-1/3 right-1/4 w-72 h-72 bg-purple-400/12 rounded-full blur-[90px] animate-float-delayed pointer-events-none" style={{ zIndex: 1 }} />
       
-      <main className="relative flex items-center overflow-hidden" style={{ height: '100vh' }}>
+      <main className="relative flex items-center" style={{ height: '100vh' }}>
         {/* Robot Background - Positioned naturally on the right, CONSTRAINED to hero only */}
         <div className="absolute inset-0" style={{ pointerEvents: 'none', zIndex: 1 }}>
           <HeroSpline />

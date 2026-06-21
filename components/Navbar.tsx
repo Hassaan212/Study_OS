@@ -41,8 +41,8 @@ export default function Navbar() {
         <div
           className={`relative rounded-full transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#050816]/80 border-cyan-400/30 shadow-lg shadow-cyan-500/10'
-              : 'bg-[#050816]/60 border-cyan-400/20'
+              ? 'bg-[#050816]/70 border-cyan-400/40 shadow-lg shadow-cyan-500/20'
+              : 'bg-[#050816]/50 border-cyan-400/30 shadow-md shadow-cyan-500/10'
           } backdrop-blur-xl border`}
         >
           <div className="px-6 py-4 flex items-center justify-between">
@@ -111,7 +111,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Dropdown */}
           <div
-            className={`lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-3xl bg-[#050816]/95 backdrop-blur-xl border border-cyan-400/20 shadow-xl shadow-cyan-500/10 overflow-hidden transition-all duration-300 ease-out origin-top ${
+            className={`lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-3xl bg-[#050816]/85 backdrop-blur-xl border border-cyan-400/20 shadow-xl shadow-cyan-500/10 overflow-hidden transition-all duration-300 ease-out origin-top ${
               isMobileMenuOpen
                 ? 'opacity-100 translate-y-0 pointer-events-auto'
                 : 'opacity-0 -translate-y-4 pointer-events-none'
