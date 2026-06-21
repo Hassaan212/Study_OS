@@ -77,8 +77,8 @@ export default function HeroSpline({ sceneUrl = 'https://prod.spline.design/v2DN
     setIsLoaded(true);
   };
 
-  const handleError = (error: any) => {
-    console.error('❌ Spline scene loading failed:', error);
+  const handleError = () => {
+    console.error('❌ Spline scene loading failed');
     setHasError(true);
   };
 

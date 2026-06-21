@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import HeroSpline from '@/components/HeroSpline';
 
@@ -109,7 +110,7 @@ export default function Home() {
                 style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}
               >
                 {/* Primary CTA - Premium with light sweep */}
-                <button className="group relative px-10 sm:px-12 py-5 sm:py-6 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base sm:text-lg overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40">
+                <Link href="/signup" className="group relative px-10 sm:px-12 py-5 sm:py-6 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-base sm:text-lg overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 hover:shadow-2xl hover:shadow-cyan-500/40 inline-flex items-center justify-center">
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
@@ -131,7 +132,7 @@ export default function Home() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
-                </button>
+                </Link>
                 
                 {/* Secondary CTA - Elegant premium */}
                 <button className="group relative px-10 sm:px-12 py-5 sm:py-6 rounded-xl border-2 border-cyan-400/40 text-cyan-300 font-bold text-base sm:text-lg backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:border-cyan-400/70 overflow-hidden shadow-lg shadow-transparent hover:shadow-cyan-500/20">
@@ -562,10 +563,10 @@ export default function Home() {
 
           {/* Bottom CTA */}
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '0.4s', opacity: 0 }}>
-            <button className="group relative px-10 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50">
+            <Link href="/signup" className="group relative px-10 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50 inline-flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative">Start Your Free Trial</span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -604,7 +605,7 @@ export default function Home() {
 
                   {/* Testimonial Text */}
                   <p className="text-lg text-gray-300 leading-relaxed">
-                    "StudyOS helped me organize an entire semester in less than an hour."
+                    &ldquo;StudyOS helped me organize an entire semester in less than an hour.&rdquo;
                   </p>
 
                   {/* Avatar and Info */}
@@ -639,7 +640,7 @@ export default function Home() {
 
                   {/* Testimonial Text */}
                   <p className="text-lg text-gray-300 leading-relaxed">
-                    "The AI assistant generates better revision material than anything I created manually."
+                    &ldquo;The AI assistant generates better revision material than anything I created manually.&rdquo;
                   </p>
 
                   {/* Avatar and Info */}
@@ -674,7 +675,7 @@ export default function Home() {
 
                   {/* Testimonial Text */}
                   <p className="text-lg text-gray-300 leading-relaxed">
-                    "Exam preparation became dramatically easier after switching to StudyOS."
+                    &ldquo;Exam preparation became dramatically easier after switching to StudyOS.&rdquo;
                   </p>
 
                   {/* Avatar and Info */}
@@ -741,9 +742,9 @@ export default function Home() {
                     ))}
                   </ul>
 
-                  <button className="w-full px-6 py-4 rounded-xl border-2 border-cyan-400/30 text-cyan-300 font-semibold hover:bg-cyan-500/10 hover:border-cyan-400/50 transition-all duration-300">
+                  <Link href="/signup" className="w-full px-6 py-4 rounded-xl border-2 border-cyan-400/30 text-cyan-300 font-semibold hover:bg-cyan-500/10 hover:border-cyan-400/50 transition-all duration-300 inline-flex items-center justify-center">
                     Get Started
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -795,10 +796,10 @@ export default function Home() {
                     ))}
                   </ul>
 
-                  <button className="group/btn relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50">
+                  <Link href="/signup" className="group/btn relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50 inline-flex items-center justify-center">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
                     <span className="relative">Start Pro Trial</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -879,10 +880,10 @@ export default function Home() {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-5 justify-center items-center pt-4">
-                  <button className="group relative px-12 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50">
+                  <Link href="/signup" className="group relative px-12 py-5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/50 inline-flex items-center justify-center">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <span className="relative">Start Free Today</span>
-                  </button>
+                  </Link>
                   <button className="px-12 py-5 rounded-xl border-2 border-cyan-400/40 text-cyan-300 font-bold text-lg backdrop-blur-sm transition-all duration-300 hover:bg-cyan-500/10 hover:border-cyan-400/60 hover:shadow-lg hover:shadow-cyan-500/20 hover:scale-105">
                     Watch Demo
                   </button>

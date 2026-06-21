@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -76,13 +77,13 @@ export default function Navbar() {
 
             {/* Right - CTA Buttons (Desktop) */}
             <div className="hidden lg:flex items-center space-x-4">
-              <button className="px-5 py-2 text-sm font-medium text-gray-300 hover:text-cyan-300 transition-all duration-300">
+              <Link href="/login" className="px-5 py-2 text-sm font-medium text-gray-300 hover:text-cyan-300 transition-all duration-300 inline-flex items-center justify-center">
                 Sign In
-              </button>
-              <button className="group relative px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-sm font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30">
+              </Link>
+              <Link href="/signup" className="group relative px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-sm font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/30 inline-flex items-center justify-center">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="relative">Get Started</span>
-              </button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -145,12 +146,12 @@ export default function Navbar() {
                   animationDelay: isMobileMenuOpen ? `${navLinks.length * 50}ms` : '0ms',
                 }}
               >
-                <button className="w-full px-5 py-3 text-sm font-medium text-gray-300 hover:text-cyan-300 hover:bg-cyan-500/10 rounded-xl transition-all duration-300">
+                <Link href="/login" className="w-full px-5 py-3 text-sm font-medium text-gray-300 hover:text-cyan-300 hover:bg-cyan-500/10 rounded-xl transition-all duration-300 inline-flex items-center justify-center" onClick={() => setIsMobileMenuOpen(false)}>
                   Sign In
-                </button>
-                <button className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-sm font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-cyan-500/30">
+                </Link>
+                <Link href="/signup" className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-sm font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-cyan-500/30 inline-flex items-center justify-center" onClick={() => setIsMobileMenuOpen(false)}>
                   Get Started
-                </button>
+                </Link>
               </div>
             </div>
           </div>
