@@ -5,14 +5,33 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Sidebar from '@/components/Sidebar';
+import TaskForm from '@/components/TaskForm';
+import TaskList from '@/components/TaskList';
+import EditTaskModal from '@/components/EditTaskModal';
+import { useTasksRealtime } from '@/hooks/useTasksRealtime';
+import { Task, TaskInput } from '@/types/task';
 
 export default function PlannerPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+
+  // Real-time task management
+  const {
+    tasks,
+    loading: tasksLoading,
+    error: tasksError,
+    createTask,
+    editTask,
+    removeTask,
+    toggleComplete,
+  } = useTasksRealtime(userId);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setUserId(user.uid);
         setLoading(false);
       } else {
         router.push('/login');
@@ -21,6 +40,30 @@ export default function PlannerPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  const handleCreateTask = async (taskInput: TaskInput) => {
+    await createTask(taskInput);
+  };
+
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+  };
+
+  const handleUpdateTask = async (taskId: string, taskInput: TaskInput) => {
+    await editTask(taskId, taskInput);
+  };
+
+  const handleDeleteTask = async (taskId: string) => {
+    await removeTask(taskId);
+  };
+
+  const handleToggleComplete = async (taskId: string, currentStatus: boolean) => {
+    await toggleComplete(taskId, currentStatus);
+  };
+
+  const handleCloseModal = () => {
+    setEditingTask(null);
+  };
 
   if (loading) {
     return (
@@ -78,14 +121,14 @@ export default function PlannerPage() {
           </div>
         </div>
 
-        {/* Content Card */}
-        <div className="animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
+        {/* Add Task Card */}
+        <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
           <div className="relative group">
             {/* Outer glow effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
             
             {/* Main glass card */}
-            <div className="relative bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-blue-500/5 rounded-3xl border-2 border-cyan-400/30 backdrop-blur-2xl p-8 sm:p-10 transition-all duration-500 group-hover:border-cyan-400/50 group-hover:shadow-2xl group-hover:shadow-cyan-500/25">
+            <div className="relative bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-blue-500/5 rounded-3xl border-2 border-cyan-400/30 backdrop-blur-2xl p-6 sm:p-8 transition-all duration-500 group-hover:border-cyan-400/50 group-hover:shadow-2xl group-hover:shadow-cyan-500/25">
               {/* Grid pattern overlay */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff08_1px,transparent_1px),linear-gradient(to_bottom,#00ffff08_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
               
@@ -93,17 +136,64 @@ export default function PlannerPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               
               {/* Content */}
-              <div className="relative text-center py-12 sm:py-20">
-                <div className="text-6xl sm:text-7xl mb-6">📅</div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Planner Coming Soon</h2>
-                <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto">
-                  Create study schedules, set goals, and manage your tasks all in one place. 
-                  This feature is currently under development.
-                </p>
+              <div className="relative">
+                <h2 className="text-xl sm:text-2xl font-black text-white mb-6">Add New Task</h2>
+                {userId && <TaskForm userId={userId} onSubmit={handleCreateTask} />}
               </div>
             </div>
           </div>
         </div>
+
+        {/* Tasks List Card */}
+        <div className="animate-fade-in-up" style={{ animationDelay: '0.25s', animationFillMode: 'backwards' }}>
+          <div className="relative group">
+            {/* Outer glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-blue-500/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+            
+            {/* Main glass card */}
+            <div className="relative bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/5 rounded-3xl border-2 border-purple-400/30 backdrop-blur-2xl p-6 sm:p-8 transition-all duration-500 group-hover:border-purple-400/50 group-hover:shadow-2xl group-hover:shadow-purple-500/25">
+              {/* Grid pattern overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
+              
+              {/* Gradient shine overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
+              
+              {/* Content */}
+              <div className="relative">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl sm:text-2xl font-black text-white">Your Tasks</h2>
+                  <span className="px-4 py-1.5 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-sm font-bold">
+                    {tasks.length} {tasks.length === 1 ? 'Task' : 'Tasks'}
+                  </span>
+                </div>
+
+                {tasksError && (
+                  <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 backdrop-blur-sm">
+                    <p className="text-red-400 text-sm font-medium">{tasksError}</p>
+                  </div>
+                )}
+
+                <TaskList
+                  tasks={tasks}
+                  loading={tasksLoading}
+                  onEdit={handleEditTask}
+                  onDelete={handleDeleteTask}
+                  onToggleComplete={handleToggleComplete}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Edit Task Modal */}
+        {editingTask && userId && (
+          <EditTaskModal
+            task={editingTask}
+            userId={userId}
+            onSubmit={handleUpdateTask}
+            onClose={handleCloseModal}
+          />
+        )}
       </div>
     </div>
     </>

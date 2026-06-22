@@ -5,17 +5,36 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Sidebar from '@/components/Sidebar';
+import { useTasks } from '@/hooks/useTasks';
+import { Task } from '@/types/task';
+import TaskCheckbox from '@/components/TaskCheckbox';
 
 export default function DashboardPage() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>('User');
+  const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [completingTaskIds, setCompletingTaskIds] = useState<Set<string>>(new Set());
+
+  // Task management hook
+  const {
+    tasksDueToday,
+    upcomingTasks,
+    loading: tasksLoading,
+    error: tasksError,
+    toggleTaskCompletion,
+    getTaskStats,
+    fetchTasks,
+  } = useTasks(userId);
+
+  const taskStats = getTaskStats();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserEmail(user.email);
+        setUserId(user.uid);
         // Extract name from email or use display name
         const name = user.displayName || user.email?.split('@')[0] || 'User';
         setUserName(name);
@@ -37,6 +56,49 @@ export default function DashboardPage() {
       day: 'numeric' 
     };
     return new Date().toLocaleDateString('en-US', options);
+  };
+
+  const formatDueDate = (date: Date): string => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dueDate = new Date(date);
+    dueDate.setHours(0, 0, 0, 0);
+    
+    const diffTime = dueDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Due: Today';
+    if (diffDays === 1) return 'Due: Tomorrow';
+    if (diffDays > 1 && diffDays <= 7) return `Due: In ${diffDays} days`;
+    
+    return `Due: ${dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+  };
+
+  const handleTaskToggle = async (taskId: string, currentStatus: boolean) => {
+    // If completing a task (not uncompleting)
+    if (!currentStatus) {
+      // Add to completing set for visual state
+      setCompletingTaskIds((prev) => new Set(prev).add(taskId));
+      
+      // Update Firestore immediately but don't refresh tasks yet
+      // We'll use the lib function directly to avoid the automatic refresh
+      const { toggleTaskCompletion: directToggle } = await import('@/lib/tasks');
+      await directToggle(taskId, currentStatus);
+      
+      // Wait for animation, then remove from completing set and refresh
+      setTimeout(() => {
+        setCompletingTaskIds((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(taskId);
+          return newSet;
+        });
+        // Now refresh to get updated task list
+        fetchTasks();
+      }, 2000); // 2000ms (2 seconds) animation duration
+    } else {
+      // Uncompleting - no animation needed
+      await toggleTaskCompletion(taskId, currentStatus);
+    }
   };
 
   if (loading) {
@@ -136,22 +198,40 @@ export default function DashboardPage() {
                 {/* Tasks Complete & Progress Bar */}
                 <div className="flex items-center justify-between gap-6">
                   <div>
-                    <div className="text-4xl sm:text-5xl font-black text-white">3 / 5</div>
-                    <p className="text-gray-300 text-sm font-semibold mt-1">Tasks Complete</p>
+                    {tasksLoading ? (
+                      <div className="text-4xl sm:text-5xl font-black text-white/50">...</div>
+                    ) : taskStats.totalTasksDueToday === 0 ? (
+                      <div>
+                        <div className="text-4xl sm:text-5xl font-black text-white">0</div>
+                        <p className="text-gray-300 text-sm font-semibold mt-1">No tasks today</p>
+                      </div>
+                    ) : (
+                      <div>
+                        <div className="text-4xl sm:text-5xl font-black text-white">
+                          {taskStats.completedTasksDueToday} / {taskStats.totalTasksDueToday}
+                        </div>
+                        <p className="text-gray-300 text-sm font-semibold mt-1">Tasks Complete</p>
+                      </div>
+                    )}
                   </div>
                   
                   {/* Progress Bar */}
                   <div className="flex-1 max-w-xs space-y-2">
                     <div className="relative h-4 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm border border-white/20">
                       {/* Progress fill with gradient and glow */}
-                      <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full shadow-lg shadow-cyan-500/50 transition-all duration-1000">
+                      <div 
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full shadow-lg shadow-cyan-500/50 transition-all duration-1000"
+                        style={{ width: `${tasksLoading ? 0 : taskStats.progressPercentage}%` }}
+                      >
                         {/* Animated shimmer effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
                       </div>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-400 font-medium">Progress</span>
-                      <span className="text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">60%</span>
+                      <span className="text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                        {tasksLoading ? '0' : taskStats.progressPercentage}%
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -260,11 +340,15 @@ export default function DashboardPage() {
                     </div>
                     <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm">
                       <p className="text-gray-400 text-xs font-medium mb-2">Tasks Today</p>
-                      <p className="text-white font-black text-3xl">3/5</p>
+                      <p className="text-white font-black text-3xl">
+                        {tasksLoading ? '-' : `${taskStats.completedTasksDueToday}/${taskStats.totalTasksDueToday}`}
+                      </p>
                     </div>
                     <div className="p-5 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm">
                       <p className="text-gray-400 text-xs font-medium mb-2">Tasks Completed</p>
-                      <p className="text-white font-black text-3xl">24/32</p>
+                      <p className="text-white font-black text-3xl">
+                        {tasksLoading ? '-' : taskStats.completedTasksDueToday}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -368,29 +452,73 @@ export default function DashboardPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <div className="relative">
                 <h3 className="text-xl font-bold text-white mb-6">Upcoming Tasks</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
-                    <input type="checkbox" className="w-5 h-5 rounded border-2 border-gray-400 transition-all duration-300 hover:border-green-400 cursor-pointer" />
-                    <div className="flex-1">
-                      <p className="text-white text-sm font-semibold">Physics Assignment</p>
-                      <p className="text-gray-300 text-xs mt-1 font-medium">Due: Tomorrow</p>
-                    </div>
+                {tasksLoading ? (
+                  <div className="flex justify-center py-8">
+                    <div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin"></div>
                   </div>
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
-                    <input type="checkbox" className="w-5 h-5 rounded border-2 border-gray-400 transition-all duration-300 hover:border-green-400 cursor-pointer" />
-                    <div className="flex-1">
-                      <p className="text-white text-sm font-semibold">Review Biology Chapter</p>
-                      <p className="text-gray-300 text-xs mt-1 font-medium">Due: In 2 days</p>
-                    </div>
+                ) : tasksError ? (
+                  <div className="text-center py-6">
+                    <p className="text-red-400 text-sm">{tasksError}</p>
                   </div>
-                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]">
-                    <input type="checkbox" className="w-5 h-5 rounded border-2 border-gray-400 transition-all duration-300 hover:border-green-400 cursor-pointer" />
-                    <div className="flex-1">
-                      <p className="text-white text-sm font-semibold">English Essay Draft</p>
-                      <p className="text-gray-300 text-xs mt-1 font-medium">Due: Next week</p>
-                    </div>
+                ) : upcomingTasks.length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="text-5xl mb-3">✨</div>
+                    <p className="text-gray-400 text-sm font-medium">No upcoming tasks</p>
+                    <p className="text-gray-500 text-xs mt-1">You're all caught up!</p>
                   </div>
-                </div>
+                ) : (
+                  <div className="space-y-3">
+                    {upcomingTasks
+                      .filter((task) => !task.completed || completingTaskIds.has(task.id))
+                      .map((task) => {
+                        const isCompleting = completingTaskIds.has(task.id);
+                        
+                        return (
+                          <div 
+                            key={task.id}
+                            className={`
+                              flex items-center gap-4 p-4 rounded-2xl backdrop-blur-sm transition-all duration-500
+                              ${
+                                isCompleting
+                                  ? 'bg-gradient-to-r from-green-500/10 to-cyan-500/10 border-2 border-green-400/40 opacity-60 scale-95 shadow-lg shadow-green-500/20'
+                                  : 'bg-white/5 border-2 border-white/10 hover:bg-white/10 hover:border-white/20 hover:scale-[1.02]'
+                              }
+                            `}
+                          >
+                            <TaskCheckbox
+                              checked={task.completed}
+                              onChange={() => handleTaskToggle(task.id, task.completed)}
+                            />
+                            <div className="flex-1">
+                              <p className={`text-sm font-semibold transition-all duration-500 ${
+                                isCompleting 
+                                  ? 'text-gray-400 line-through' 
+                                  : task.completed 
+                                    ? 'text-gray-500 line-through' 
+                                    : 'text-white'
+                              }`}>
+                                {task.title}
+                              </p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium transition-all duration-500 ${
+                                  isCompleting
+                                    ? 'bg-white/5 text-gray-400'
+                                    : 'bg-white/10 text-gray-300'
+                                }`}>
+                                  {task.subject}
+                                </span>
+                                <p className={`text-xs font-medium transition-all duration-500 ${
+                                  isCompleting ? 'text-gray-500' : 'text-gray-300'
+                                }`}>
+                                  {formatDueDate(task.dueDate)}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
               </div>
             </div>
           </div>
