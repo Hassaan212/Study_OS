@@ -86,7 +86,7 @@ export default function AssistantPage() {
                 </div>
                 
                 {/* Premium Badges */}
-                <div className="flex flex-wrap gap-3">
+                {/* <div className="flex flex-wrap gap-3">
                   <div className="relative group">
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-500/40 to-pink-500/40 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/40 rounded-full px-4 py-2">
@@ -122,7 +122,7 @@ export default function AssistantPage() {
                       </span>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 
                 {/* CTA Buttons */}
                 <div className="flex flex-wrap gap-4 pt-4">
@@ -238,7 +238,7 @@ export default function AssistantPage() {
           </div>
           
           {/* SECTION 3: AI CHAT WORKSPACE */}
-          <div className="animate-fade-in-up mb-20" style={{ animationDelay: '0.25s', animationFillMode: 'backwards' }}>
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.25s', animationFillMode: 'backwards' }}>
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-blue-500/30 rounded-3xl blur-3xl opacity-50 group-hover:opacity-70 transition-all duration-500 pointer-events-none" />
               
@@ -253,49 +253,6 @@ export default function AssistantPage() {
                       <h3 className="text-white font-bold text-2xl">AI Chat Workspace</h3>
                       <p className="text-gray-400 text-sm mt-1">Ask anything about your studies</p>
                     </div>
-                  </div>
-                  
-                  {/* Suggested Prompts */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                    <button className="relative group/prompt text-left">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-md opacity-0 group-hover/prompt:opacity-100 transition-opacity duration-300" />
-                      <div className="relative bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-purple-400/30 rounded-xl p-4 transition-all duration-300">
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">💡</span>
-                          <span className="text-white text-sm font-medium">Explain Bubble Sort</span>
-                        </div>
-                      </div>
-                    </button>
-                    
-                    <button className="relative group/prompt text-left">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl blur-md opacity-0 group-hover/prompt:opacity-100 transition-opacity duration-300" />
-                      <div className="relative bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-cyan-400/30 rounded-xl p-4 transition-all duration-300">
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">✅</span>
-                          <span className="text-white text-sm font-medium">Generate DBMS MCQs</span>
-                        </div>
-                      </div>
-                    </button>
-                    
-                    <button className="relative group/prompt text-left">
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl blur-md opacity-0 group-hover/prompt:opacity-100 transition-opacity duration-300" />
-                      <div className="relative bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-blue-400/30 rounded-xl p-4 transition-all duration-300">
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">📝</span>
-                          <span className="text-white text-sm font-medium">Summarize Operating Systems</span>
-                        </div>
-                      </div>
-                    </button>
-                    
-                    <button className="relative group/prompt text-left">
-                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-xl blur-md opacity-0 group-hover/prompt:opacity-100 transition-opacity duration-300" />
-                      <div className="relative bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-pink-400/30 rounded-xl p-4 transition-all duration-300">
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">🃏</span>
-                          <span className="text-white text-sm font-medium">Create Flashcards from Notes</span>
-                        </div>
-                      </div>
-                    </button>
                   </div>
                   
                   {/* Chat Input Area */}
@@ -327,55 +284,6 @@ export default function AssistantPage() {
                     🔮 AI integration coming soon • This is a UI preview
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* SECTION 4: TRUST / BENEFITS */}
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.35s', animationFillMode: 'backwards' }}>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              <div className="text-center space-y-3">
-                <div className="relative group inline-block">
-                  <div className="absolute inset-0 bg-purple-500/30 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/30 rounded-full w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center text-3xl sm:text-4xl">
-                    ⚡
-                  </div>
-                </div>
-                <h4 className="text-white font-bold text-base sm:text-lg">Instant Responses</h4>
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">Get answers in seconds, not hours</p>
-              </div>
-              
-              <div className="text-center space-y-3">
-                <div className="relative group inline-block">
-                  <div className="absolute inset-0 bg-cyan-500/30 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 rounded-full w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center text-3xl sm:text-4xl">
-                    🎯
-                  </div>
-                </div>
-                <h4 className="text-white font-bold text-base sm:text-lg">Study-Focused</h4>
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">Tailored specifically for students</p>
-              </div>
-              
-              <div className="text-center space-y-3">
-                <div className="relative group inline-block">
-                  <div className="absolute inset-0 bg-blue-500/30 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center text-3xl sm:text-4xl">
-                    🕐
-                  </div>
-                </div>
-                <h4 className="text-white font-bold text-base sm:text-lg">Available 24/7</h4>
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">Study support whenever you need it</p>
-              </div>
-              
-              <div className="text-center space-y-3">
-                <div className="relative group inline-block">
-                  <div className="absolute inset-0 bg-green-500/30 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30 rounded-full w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center text-3xl sm:text-4xl">
-                    📚
-                  </div>
-                </div>
-                <h4 className="text-white font-bold text-base sm:text-lg">Exam Preparation</h4>
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">Perfect for test preparation</p>
               </div>
             </div>
           </div>
