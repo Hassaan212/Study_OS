@@ -5,14 +5,28 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Sidebar from '@/components/Sidebar';
+import { useNotesRealtime } from '@/hooks/useNotesRealtime';
+import NotesList from '@/components/NotesList';
+import NoteForm from '@/components/NoteForm';
+import NoteModal from '@/components/NoteModal';
+import { Note } from '@/types/note';
 
 export default function NotesPage() {
   const router = useRouter();
+  const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [viewMode, setViewMode] = useState<'view' | 'edit' | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { notes, loading: notesLoading, addNote, editNote, removeNote, searchNotes } = useNotesRealtime(userId);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setUserId(user.uid);
         setLoading(false);
       } else {
         router.push('/login');
@@ -21,6 +35,67 @@ export default function NotesPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  const handleCreateNote = async (title: string, content: string, subject: string) => {
+    if (!userId) return;
+    
+    setIsSubmitting(true);
+    try {
+      await addNote({
+        title,
+        content,
+        subject,
+        userId,
+      });
+      setShowCreateForm(false);
+    } catch (error) {
+      console.error('Error creating note:', error);
+      alert('Failed to create note. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleEditNote = async (noteId: string, title: string, content: string, subject: string) => {
+    setIsSubmitting(true);
+    try {
+      await editNote(noteId, { title, content, subject });
+      setSelectedNote(null);
+      setViewMode(null);
+    } catch (error) {
+      console.error('Error editing note:', error);
+      alert('Failed to update note. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDeleteNote = async (noteId: string) => {
+    try {
+      await removeNote(noteId);
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      alert('Failed to delete note. Please try again.');
+    }
+  };
+
+  const handleViewNote = (note: Note) => {
+    setSelectedNote(note);
+    setViewMode('view');
+  };
+
+  const handleEditClick = (note: Note) => {
+    setSelectedNote(note);
+    setViewMode('edit');
+  };
+
+  const handleCloseModal = () => {
+    setSelectedNote(null);
+    setViewMode(null);
+  };
+
+  // Filter notes based on search
+  const filteredNotes = searchTerm.trim() ? searchNotes(searchTerm) : notes;
 
   if (loading) {
     return (
@@ -78,34 +153,84 @@ export default function NotesPage() {
           </div>
         </div>
 
-        {/* Content Card */}
-        <div className="animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
-          <div className="relative group">
-            {/* Outer glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-            
-            {/* Main glass card */}
-            <div className="relative bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-purple-500/5 rounded-3xl border-2 border-blue-400/30 backdrop-blur-2xl p-8 sm:p-10 transition-all duration-500 group-hover:border-blue-400/50 group-hover:shadow-2xl group-hover:shadow-blue-500/25">
-              {/* Grid pattern overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f608_1px,transparent_1px),linear-gradient(to_bottom,#3b82f608_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
-              
-              {/* Gradient shine overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
-              
-              {/* Content */}
-              <div className="relative text-center py-12 sm:py-20">
-                <div className="text-6xl sm:text-7xl mb-6">📝</div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Notes Coming Soon</h2>
-                <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto">
-                  Take rich notes with markdown support, organize them by subject, 
-                  and sync across devices. This feature is currently under development.
-                </p>
+        {/* Search and Create Section */}
+        <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Search bar */}
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search notes by title, content, or subject..."
+                className="w-full px-5 py-3 pl-12 bg-blue-500/10 border border-blue-400/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400/50 transition-all"
+              />
+              <svg
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+
+            {/* Create button */}
+            <button
+              onClick={() => setShowCreateForm(!showCreateForm)}
+              className="px-6 py-3 font-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all shadow-lg shadow-cyan-500/25 whitespace-nowrap"
+            >
+              {showCreateForm ? 'Cancel' : '+ Create Note'}
+            </button>
+          </div>
+        </div>
+
+        {/* Create Note Form */}
+        {showCreateForm && (
+          <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-3xl blur-2xl opacity-60 pointer-events-none" />
+              <div className="relative bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-purple-500/5 rounded-3xl border-2 border-blue-400/30 backdrop-blur-2xl p-8 transition-all duration-500">
+                <h2 className="text-2xl font-bold text-white mb-6">Create New Note</h2>
+                <NoteForm
+                  onSubmit={handleCreateNote}
+                  onCancel={() => setShowCreateForm(false)}
+                  isSubmitting={isSubmitting}
+                />
               </div>
             </div>
           </div>
+        )}
+
+        {/* Notes Grid */}
+        <div className="animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
+          {notesLoading ? (
+            <div className="text-center py-20">
+              <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-400">Loading notes...</p>
+            </div>
+          ) : (
+            <NotesList
+              notes={filteredNotes}
+              onEdit={handleEditClick}
+              onDelete={handleDeleteNote}
+              onView={handleViewNote}
+            />
+          )}
         </div>
       </div>
     </div>
+
+      {/* Note Modal */}
+      {selectedNote && viewMode && (
+        <NoteModal
+          note={selectedNote}
+          onClose={handleCloseModal}
+          onEdit={handleEditNote}
+          isEditing={viewMode === 'edit'}
+          isSubmitting={isSubmitting}
+        />
+      )}
     </>
   );
 }
