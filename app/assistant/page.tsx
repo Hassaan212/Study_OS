@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
@@ -10,6 +10,8 @@ import Spline from '@splinetool/react-spline';
 export default function AssistantPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [chatInput, setChatInput] = useState('');
+  const chatInputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -22,6 +24,13 @@ export default function AssistantPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  const handleQuickAction = (prompt: string) => {
+    setChatInput(prompt);
+    setTimeout(() => {
+      chatInputRef.current?.focus();
+    }, 100);
+  };
 
   if (loading) {
     return (
@@ -57,16 +66,16 @@ export default function AssistantPage() {
              style={{ animationDuration: '12s', animationDelay: '2s' }} />
         
         {/* Main Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           
           {/* SECTION 1: HERO */}
-          <div className="animate-fade-in-up mb-20 lg:mb-24">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="animate-fade-in-up mb-12 sm:mb-16 lg:mb-24">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
               
               {/* Left Side: Content */}
-              <div className="space-y-8">
-                <div className="space-y-6">
-                  <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight">
+              <div className="space-y-6 sm:space-y-8">
+                <div className="space-y-4 sm:space-y-6">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight">
                     <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
                       AI Study
                     </span>
@@ -76,7 +85,7 @@ export default function AssistantPage() {
                     </span>
                   </h1>
                   
-                  <p className="text-gray-300 text-lg sm:text-xl leading-relaxed max-w-xl">
+                  <p className="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed max-w-xl">
                     Help students <span className="text-cyan-400 font-semibold">understand concepts</span>, 
                     <span className="text-purple-400 font-semibold"> generate notes</span>, 
                     <span className="text-blue-400 font-semibold"> create quizzes</span>, 
@@ -85,50 +94,11 @@ export default function AssistantPage() {
                   </p>
                 </div>
                 
-                {/* Premium Badges */}
-                {/* <div className="flex flex-wrap gap-3">
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/40 to-pink-500/40 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/40 rounded-full px-4 py-2">
-                      <span className="text-white font-medium text-sm flex items-center gap-2">
-                        <span>💡</span> Explain Concepts
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/40 to-blue-500/40 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative bg-gradient-to-r from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/40 rounded-full px-4 py-2">
-                      <span className="text-white font-medium text-sm flex items-center gap-2">
-                        <span>📝</span> Generate Notes
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/40 to-purple-500/40 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-400/40 rounded-full px-4 py-2">
-                      <span className="text-white font-medium text-sm flex items-center gap-2">
-                        <span>✅</span> Create MCQs
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-pink-500/40 to-purple-500/40 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm border border-pink-400/40 rounded-full px-4 py-2">
-                      <span className="text-white font-medium text-sm flex items-center gap-2">
-                        <span>🃏</span> Create Flashcards
-                      </span>
-                    </div>
-                  </div>
-                </div> */}
-                
                 {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 pt-4">
-                  <button className="relative group">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2 sm:pt-4">
+                  <button className="relative group w-full sm:w-auto">
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 flex items-center gap-2">
+                    <div className="relative bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
                       <span>Start Learning</span>
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -136,8 +106,8 @@ export default function AssistantPage() {
                     </div>
                   </button>
                   
-                  <button className="relative group">
-                    <div className="relative bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/20 hover:border-white/30 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300">
+                  <button className="relative group w-full sm:w-auto">
+                    <div className="relative bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/20 hover:border-white/30 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all duration-300 text-center">
                       View Examples
                     </div>
                   </button>
@@ -145,11 +115,11 @@ export default function AssistantPage() {
               </div>
               
               {/* Right Side: Spline AI Core */}
-              <div className="relative lg:h-[500px] flex items-center justify-center">
+              <div className="relative lg:h-[500px] flex items-center justify-center order-first lg:order-last">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-blue-500/30 rounded-3xl blur-3xl opacity-50 transition-opacity duration-500" />
-                <div className="relative w-full h-full min-h-[400px] lg:min-h-[500px] bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-blue-500/10 backdrop-blur-2xl border-2 border-purple-400/30 rounded-3xl overflow-hidden">
+                <div className="relative w-full h-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-blue-500/10 backdrop-blur-2xl border-2 border-purple-400/30 rounded-2xl sm:rounded-3xl overflow-hidden">
                   {/* Grid Pattern */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none z-10" />
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl sm:rounded-3xl pointer-events-none z-10" />
                   
                   {/* Spline Scene */}
                   <div className="absolute inset-0 w-full h-full">
@@ -164,115 +134,136 @@ export default function AssistantPage() {
           </div>
           
           {/* SECTION 2: QUICK ACTIONS */}
-          <div className="animate-fade-in-up mb-20" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+          <div className="animate-fade-in-up mb-12 sm:mb-16 lg:mb-20" style={{ animationDelay: '0.15s', animationFillMode: 'backwards' }}>
+            <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
                 Quick Actions
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-base sm:text-lg">
                 Choose what you need help with
               </p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Explain a Topic */}
-              <div className="relative group cursor-pointer h-full">
+              <div 
+                className="relative group cursor-pointer h-full"
+                onClick={() => handleQuickAction('Explain the following topic: ')}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-purple-400/20 rounded-2xl p-8 transition-all duration-300 group-hover:border-purple-400/40 group-hover:scale-[1.02] flex flex-col">
-                  <div className="text-5xl mb-6">🎓</div>
-                  <h3 className="text-white font-bold text-xl mb-3">Explain a Topic</h3>
-                  <p className="text-gray-400 text-base leading-relaxed flex-grow">Get clear, detailed explanations for any concept you're studying</p>
+                <div className="relative h-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-purple-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 group-hover:border-purple-400/40 group-hover:scale-[1.02] flex flex-col">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">🎓</div>
+                  <h3 className="text-white font-bold text-lg sm:text-xl mb-2 sm:mb-3">Explain a Topic</h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow">Get clear, detailed explanations for any concept you're studying</p>
                 </div>
               </div>
 
               {/* Summarize Notes */}
-              <div className="relative group cursor-pointer h-full">
+              <div 
+                className="relative group cursor-pointer h-full"
+                onClick={() => handleQuickAction('Summarize these notes: ')}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/30 to-blue-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl border border-cyan-400/20 rounded-2xl p-8 transition-all duration-300 group-hover:border-cyan-400/40 group-hover:scale-[1.02] flex flex-col">
-                  <div className="text-5xl mb-6">📄</div>
-                  <h3 className="text-white font-bold text-xl mb-3">Summarize Notes</h3>
-                  <p className="text-gray-400 text-base leading-relaxed flex-grow">Transform lengthy notes into concise, focused summaries</p>
+                <div className="relative h-full bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl border border-cyan-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 group-hover:border-cyan-400/40 group-hover:scale-[1.02] flex flex-col">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">📄</div>
+                  <h3 className="text-white font-bold text-lg sm:text-xl mb-2 sm:mb-3">Summarize Notes</h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow">Transform lengthy notes into concise, focused summaries</p>
                 </div>
               </div>
 
               {/* Generate MCQs */}
-              <div className="relative group cursor-pointer h-full">
+              <div 
+                className="relative group cursor-pointer h-full"
+                onClick={() => handleQuickAction('Generate 10 MCQs on: ')}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-xl border border-blue-400/20 rounded-2xl p-8 transition-all duration-300 group-hover:border-blue-400/40 group-hover:scale-[1.02] flex flex-col">
-                  <div className="text-5xl mb-6">❓</div>
-                  <h3 className="text-white font-bold text-xl mb-3">Generate MCQs</h3>
-                  <p className="text-gray-400 text-base leading-relaxed flex-grow">Create practice questions to test your understanding</p>
+                <div className="relative h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-xl border border-blue-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 group-hover:border-blue-400/40 group-hover:scale-[1.02] flex flex-col">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">❓</div>
+                  <h3 className="text-white font-bold text-lg sm:text-xl mb-2 sm:mb-3">Generate MCQs</h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow">Create practice questions to test your understanding</p>
                 </div>
               </div>
 
               {/* Create Flashcards */}
-              <div className="relative group cursor-pointer h-full">
+              <div 
+                className="relative group cursor-pointer h-full"
+                onClick={() => handleQuickAction('Create flashcards for: ')}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-purple-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full bg-gradient-to-br from-pink-500/10 to-purple-500/10 backdrop-blur-xl border border-pink-400/20 rounded-2xl p-8 transition-all duration-300 group-hover:border-pink-400/40 group-hover:scale-[1.02] flex flex-col">
-                  <div className="text-5xl mb-6">🃏</div>
-                  <h3 className="text-white font-bold text-xl mb-3">Create Flashcards</h3>
-                  <p className="text-gray-400 text-base leading-relaxed flex-grow">Generate flashcards for effective memorization and recall</p>
+                <div className="relative h-full bg-gradient-to-br from-pink-500/10 to-purple-500/10 backdrop-blur-xl border border-pink-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 group-hover:border-pink-400/40 group-hover:scale-[1.02] flex flex-col">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">🃏</div>
+                  <h3 className="text-white font-bold text-lg sm:text-xl mb-2 sm:mb-3">Create Flashcards</h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow">Generate flashcards for effective memorization and recall</p>
                 </div>
               </div>
 
               {/* Solve Problems */}
-              <div className="relative group cursor-pointer h-full">
+              <div 
+                className="relative group cursor-pointer h-full"
+                onClick={() => handleQuickAction('Solve the following problem: ')}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-red-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full bg-gradient-to-br from-orange-500/10 to-red-500/10 backdrop-blur-xl border border-orange-400/20 rounded-2xl p-8 transition-all duration-300 group-hover:border-orange-400/40 group-hover:scale-[1.02] flex flex-col">
-                  <div className="text-5xl mb-6">🧮</div>
-                  <h3 className="text-white font-bold text-xl mb-3">Solve Problems</h3>
-                  <p className="text-gray-400 text-base leading-relaxed flex-grow">Get step-by-step solutions to complex problems</p>
+                <div className="relative h-full bg-gradient-to-br from-orange-500/10 to-red-500/10 backdrop-blur-xl border border-orange-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 group-hover:border-orange-400/40 group-hover:scale-[1.02] flex flex-col">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">🧮</div>
+                  <h3 className="text-white font-bold text-lg sm:text-xl mb-2 sm:mb-3">Solve Problems</h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow">Get step-by-step solutions to complex problems</p>
                 </div>
               </div>
 
               {/* Create Study Plan */}
-              <div className="relative group cursor-pointer h-full">
+              <div 
+                className="relative group cursor-pointer h-full"
+                onClick={() => handleQuickAction('Create a study plan for: ')}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-xl border border-green-400/20 rounded-2xl p-8 transition-all duration-300 group-hover:border-green-400/40 group-hover:scale-[1.02] flex flex-col">
-                  <div className="text-5xl mb-6">📅</div>
-                  <h3 className="text-white font-bold text-xl mb-3">Create Study Plan</h3>
-                  <p className="text-gray-400 text-base leading-relaxed flex-grow">Build a personalized study schedule tailored to your goals</p>
+                <div className="relative h-full bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-xl border border-green-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 transition-all duration-300 group-hover:border-green-400/40 group-hover:scale-[1.02] flex flex-col">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">📅</div>
+                  <h3 className="text-white font-bold text-lg sm:text-xl mb-2 sm:mb-3">Create Study Plan</h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed flex-grow">Build a personalized study schedule tailored to your goals</p>
                 </div>
               </div>
             </div>
           </div>
           
           {/* SECTION 3: AI CHAT WORKSPACE */}
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.25s', animationFillMode: 'backwards' }}>
+          <div className="animate-fade-in-up pb-8 sm:pb-12" style={{ animationDelay: '0.25s', animationFillMode: 'backwards' }}>
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-blue-500/30 rounded-3xl blur-3xl opacity-50 group-hover:opacity-70 transition-all duration-500 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-cyan-500/30 to-blue-500/30 rounded-2xl sm:rounded-3xl blur-3xl opacity-50 group-hover:opacity-70 transition-all duration-500 pointer-events-none" />
               
-              <div className="relative bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-blue-500/10 rounded-3xl border-2 border-purple-400/30 backdrop-blur-2xl p-8 sm:p-10 transition-all duration-500 group-hover:border-purple-400/50">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-3xl pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
+              <div className="relative bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-blue-500/10 rounded-2xl sm:rounded-3xl border-2 border-purple-400/30 backdrop-blur-2xl p-6 sm:p-8 lg:p-10 transition-all duration-500 group-hover:border-purple-400/50">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#a855f708_1px,transparent_1px),linear-gradient(to_bottom,#a855f708_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl sm:rounded-3xl pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl sm:rounded-3xl pointer-events-none" />
                 
-                <div className="relative space-y-6">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="text-4xl">💬</div>
+                <div className="relative space-y-4 sm:space-y-6">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    <div className="text-3xl sm:text-4xl">💬</div>
                     <div>
-                      <h3 className="text-white font-bold text-2xl">AI Chat Workspace</h3>
-                      <p className="text-gray-400 text-sm mt-1">Ask anything about your studies</p>
+                      <h3 className="text-white font-bold text-xl sm:text-2xl">AI Chat Workspace</h3>
+                      <p className="text-gray-400 text-xs sm:text-sm mt-1">Ask anything about your studies</p>
                     </div>
                   </div>
                   
                   {/* Chat Input Area */}
                   <div className="relative">
                     <textarea
+                      ref={chatInputRef}
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
                       placeholder="Ask anything about your studies..."
-                      rows={8}
-                      className="w-full bg-gradient-to-br from-gray-900/60 to-gray-800/40 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 resize-none studyos-scrollbar-dark text-base"
+                      rows={6}
+                      className="w-full bg-gradient-to-br from-gray-900/60 to-gray-800/40 backdrop-blur-sm border border-gray-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 resize-none studyos-scrollbar-dark text-sm sm:text-base"
                       disabled
                     />
                     
-                    <div className="absolute bottom-6 right-6 flex items-center gap-3">
+                    <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 flex items-center gap-2 sm:gap-3">
                       <button 
                         className="relative group/btn"
                         disabled
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl blur-lg opacity-50 group-hover/btn:opacity-100 transition-opacity duration-300" />
-                        <div className="relative bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 flex items-center gap-2 cursor-not-allowed opacity-70">
-                          <span className="text-base">Send</span>
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg sm:rounded-xl blur-lg opacity-50 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                        <div className="relative bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg sm:rounded-xl transition-all duration-300 flex items-center gap-2 cursor-not-allowed opacity-70">
+                          <span className="text-sm sm:text-base">Send</span>
+                          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                           </svg>
                         </div>
@@ -280,7 +271,36 @@ export default function AssistantPage() {
                     </div>
                   </div>
                   
-                  <p className="text-gray-500 text-sm text-center pt-2">
+                  {/* Status Card */}
+                  <div className="relative mt-4 sm:mt-6">
+                    <div className="relative bg-gradient-to-br from-gray-900/40 to-gray-800/30 backdrop-blur-sm border border-gray-700/40 rounded-xl p-3 sm:p-4">
+                      <div className="flex items-start justify-between gap-3 sm:gap-4">
+                        <div className="flex-grow">
+                          <h4 className="text-white font-semibold text-xs sm:text-sm mb-2 sm:mb-3">AI Assistant Status</h4>
+                          <div className="space-y-1 sm:space-y-1.5">
+                            <div className="flex items-center gap-2 text-xs">
+                              <span className="text-green-400 flex-shrink-0">✓</span>
+                              <span className="text-gray-300">UI Complete</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs">
+                              <span className="text-green-400 flex-shrink-0">✓</span>
+                              <span className="text-gray-300">Firebase Ready</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs">
+                              <span className="text-green-400 flex-shrink-0">✓</span>
+                              <span className="text-gray-300">StudyOS Integration Ready</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs">
+                              <span className="text-yellow-400 flex-shrink-0">⏳</span>
+                              <span className="text-gray-300">AI API Integration Pending</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-500 text-xs sm:text-sm text-center pt-1 sm:pt-2">
                     🔮 AI integration coming soon • This is a UI preview
                   </p>
                 </div>
