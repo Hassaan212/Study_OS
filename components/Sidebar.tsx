@@ -90,7 +90,7 @@ export default function Sidebar() {
       <aside
         className={`
           fixed top-0 left-0 h-screen z-40
-          w-[280px] max-w-[85vw] lg:w-72
+          w-[300px] max-w-[85vw] lg:w-80
           transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
@@ -108,7 +108,7 @@ export default function Sidebar() {
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5 pointer-events-none" />
 
           {/* Content */}
-          <div className="relative h-full flex flex-col p-5 sm:p-6">
+          <div className="relative h-full flex flex-col px-5 sm:px-6 py-5 sm:py-6">
             {/* Logo/Brand */}
             <div className="mb-6 sm:mb-8">
               <div className="relative group">
@@ -123,7 +123,7 @@ export default function Sidebar() {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 space-y-1.5 sm:space-y-2 overflow-y-auto studyos-scrollbar">
+            <nav className="flex-1 space-y-1.5 sm:space-y-2 overflow-y-auto overflow-x-hidden studyos-scrollbar px-0.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.path;
@@ -133,16 +133,16 @@ export default function Sidebar() {
                     key={item.path}
                     onClick={() => handleNavigation(item.path)}
                     className={`
-                      w-full flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl
+                      relative w-full flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl
                       font-semibold text-sm sm:text-base transition-all duration-300
                       ${isActive 
                         ? 'bg-gradient-to-r from-cyan-500/30 to-purple-500/30 border-2 border-cyan-400/50 text-white shadow-lg shadow-cyan-500/25' 
-                        : 'bg-white/5 border-2 border-white/10 text-gray-300 hover:bg-white/10 hover:border-white/20 hover:text-white'
+                        : 'bg-white/5 border-2 border-white/10 text-gray-300 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-purple-500/20 hover:border-cyan-400/40 hover:text-white hover:shadow-lg hover:shadow-cyan-500/20'
                       }
-                      hover:scale-[1.02] active:scale-[0.98]
+                      active:scale-[0.98] group
                     `}
                   >
-                    <Icon size={20} className={isActive ? 'text-cyan-400' : 'text-gray-400'} />
+                    <Icon size={20} className={`transition-all duration-300 ${isActive ? 'text-cyan-400' : 'text-gray-400 group-hover:text-cyan-400'}`} />
                     <span>{item.name}</span>
                     {isActive && (
                       <div className="ml-auto w-2 h-2 rounded-full bg-cyan-400 shadow-lg shadow-cyan-400/50 animate-pulse" />
@@ -153,7 +153,7 @@ export default function Sidebar() {
             </nav>
 
             {/* Bottom Section - User Info */}
-            <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t-2 border-white/10">
+            <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t-2 border-white/10 px-0.5">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none" />
                 <div className="relative p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/5 border-2 border-white/10 backdrop-blur-sm transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/10">

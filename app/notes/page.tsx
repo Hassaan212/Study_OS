@@ -138,7 +138,7 @@ export default function NotesPage() {
   return (
     <>
       <Sidebar />
-      <div className="relative min-h-screen bg-[#050816] overflow-hidden lg:ml-72">
+      <div className="relative min-h-screen bg-[#050816] overflow-hidden lg:ml-80">
       {/* Background layers - matching dashboard */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028] pointer-events-none" />
       
