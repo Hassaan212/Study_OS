@@ -141,7 +141,7 @@ export default function DashboardPage() {
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Top Section - User Welcome */}
-        <div className="mb-10 sm:mb-16 animate-fade-in-up">
+        <div className="mb-10 sm:mb-16 animate-fade-in-up pt-12 lg:pt-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div className="relative">
               {/* Animated glow behind heading */}

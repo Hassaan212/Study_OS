@@ -54,6 +54,15 @@ body {
     }
   }
   
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
   @keyframes slide-in {
     0% {
       opacity: 0;
@@ -75,6 +84,10 @@ body {
   
   .animate-fade-in-up {
     animation: fade-in-up 0.8s ease-out forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out forwards;
   }
   
   .animate-fade-in-up-delayed {
@@ -134,4 +147,106 @@ section[id] {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(6, 182, 212, 0.5);
+}
+
+/* Premium scrollbar styling for StudyOS modals and content areas */
+.studyos-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6, 182, 212, 0.25) transparent;
+}
+
+.studyos-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.studyos-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.studyos-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.2s ease;
+}
+
+.studyos-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.5) 0%, rgba(168, 85, 247, 0.5) 100%);
+  border-color: rgba(6, 182, 212, 0.1);
+}
+
+.studyos-scrollbar::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: transparent;
+  height: 12px;
+  border: none;
+}
+
+.studyos-scrollbar::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: transparent;
+  height: 12px;
+  border: none;
+}
+
+.studyos-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Variant for dark backgrounds in modals */
+.studyos-scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6, 182, 212, 0.3) rgba(17, 24, 39, 0.3);
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar-track {
+  background: rgba(17, 24, 39, 0.2);
+  border-radius: 10px;
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.35) 0%, rgba(59, 130, 246, 0.35) 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(17, 24, 39, 0.3);
+  background-clip: padding-box;
+  transition: all 0.2s ease;
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.6) 0%, rgba(168, 85, 247, 0.6) 100%);
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: transparent;
+  height: 16px;
+  border: none;
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: transparent;
+  height: 16px;
+  border: none;
+}
+
+.studyos-scrollbar-dark::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Mobile scrollbar - thinner for small screens */
+@media (max-width: 640px) {
+  .studyos-scrollbar-dark::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .studyos-scrollbar-dark::-webkit-scrollbar-thumb {
+    border: 1px solid rgba(17, 24, 39, 0.3);
+  }
 }

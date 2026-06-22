@@ -23,6 +23,28 @@ export default function NotesPage() {
 
   const { notes, loading: notesLoading, addNote, editNote, removeNote, searchNotes } = useNotesRealtime(userId);
 
+  // Handle browser back button and history management for modals
+  useEffect(() => {
+    const handlePopState = () => {
+      // Close any open modal when back button is pressed
+      if (selectedNote) {
+        setSelectedNote(null);
+        setViewMode(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedNote]);
+
+  // Push history state when modal opens
+  useEffect(() => {
+    if (selectedNote && viewMode) {
+      // Push a new history state when modal opens
+      window.history.pushState({ modal: true }, '');
+    }
+  }, [selectedNote, viewMode]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -92,6 +114,11 @@ export default function NotesPage() {
   const handleCloseModal = () => {
     setSelectedNote(null);
     setViewMode(null);
+    
+    // Go back in history if we pushed a state for the modal
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
   };
 
   // Filter notes based on search
@@ -137,7 +164,7 @@ export default function NotesPage() {
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Page Header */}
-        <div className="mb-10 sm:mb-16 animate-fade-in-up">
+        <div className="mb-10 sm:mb-16 animate-fade-in-up pt-12 lg:pt-0">
           <div className="relative">
             {/* Animated glow behind heading */}
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-purple-500/20 rounded-3xl blur-2xl opacity-50 animate-pulse pointer-events-none" 

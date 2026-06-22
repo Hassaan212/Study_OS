@@ -80,32 +80,32 @@ export default function PlannerPage() {
     <>
       <Sidebar />
       <div className="relative min-h-screen bg-[#050816] overflow-hidden lg:ml-72">
-      {/* Background layers - matching dashboard */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028] pointer-events-none" />
-      
-      {/* Radial depth layers */}
-      <div 
-        className="absolute inset-0 opacity-40 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 50% 40%, rgba(6, 182, 212, 0.08) 0%, rgba(168, 85, 247, 0.06) 35%, transparent 70%)'
-        }}
-      />
-      
-      {/* Grid pattern background */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:64px_64px]" />
-      
-      {/* Enhanced Ambient Gradient Orbs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-500/30 rounded-full blur-[140px] animate-pulse pointer-events-none" 
-           style={{ animationDuration: '8s' }} />
-      <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-cyan-500/30 rounded-full blur-[140px] animate-pulse pointer-events-none" 
-           style={{ animationDuration: '10s', animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px] animate-pulse pointer-events-none" 
-           style={{ animationDuration: '12s', animationDelay: '2s' }} />
-      
-      {/* Main content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Page Header */}
-        <div className="mb-10 sm:mb-16 animate-fade-in-up">
+        {/* Background layers - matching dashboard */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#050816] via-[#0a0e27] to-[#0d1028] pointer-events-none" />
+        
+        {/* Radial depth layers */}
+        <div 
+          className="absolute inset-0 opacity-40 pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 50% 40%, rgba(6, 182, 212, 0.08) 0%, rgba(168, 85, 247, 0.06) 35%, transparent 70%)'
+          }}
+        />
+        
+        {/* Grid pattern background */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:64px_64px]" />
+        
+        {/* Enhanced Ambient Gradient Orbs */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-500/30 rounded-full blur-[140px] animate-pulse pointer-events-none" 
+             style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-cyan-500/30 rounded-full blur-[140px] animate-pulse pointer-events-none" 
+             style={{ animationDuration: '10s', animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px] animate-pulse pointer-events-none" 
+             style={{ animationDuration: '12s', animationDelay: '2s' }} />
+        
+        {/* Main content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          {/* Page Header */}
+          <div className="mb-10 sm:mb-16 animate-fade-in-up pt-12 lg:pt-0">
           <div className="relative">
             {/* Animated glow behind heading */}
             <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-blue-500/20 rounded-3xl blur-2xl opacity-50 animate-pulse pointer-events-none" 
@@ -194,8 +194,8 @@ export default function PlannerPage() {
             onClose={handleCloseModal}
           />
         )}
+        </div>
       </div>
-    </div>
     </>
   );
 }
