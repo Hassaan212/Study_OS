@@ -95,6 +95,62 @@ export class GeminiProvider implements AIProvider {
   }
 
   /**
+   * Generate streaming chat completion
+   * Returns an async generator that yields text chunks
+   */
+  async *generateChatCompletionStream(
+    messages: AIMessage[],
+    options?: AIGenerationOptions
+  ): AsyncGenerator<string, void, unknown> {
+    try {
+      console.log('\n=== GEMINI STREAMING REQUEST ===');
+      console.log('Total messages:', messages.length);
+      
+      // Initialize the model
+      const model = this.client.getGenerativeModel({ 
+        model: this.model,
+        generationConfig: {
+          temperature: options?.temperature ?? 0.7,
+          maxOutputTokens: options?.maxTokens ?? 8000,
+        },
+      });
+
+      // Convert messages to Gemini format
+      const history = this.convertMessagesToGeminiFormat(messages, options?.systemPrompt);
+      
+      // Split history and current message
+      const currentUserMessage = history[history.length - 1];
+      const conversationHistory = history.slice(0, -1);
+      
+      console.log('Starting stream for message:', currentUserMessage.parts[0].text.substring(0, 50) + '...');
+      
+      // Start chat with history
+      const chat = model.startChat({
+        history: conversationHistory,
+      });
+
+      // Send message and get stream
+      const result = await chat.sendMessageStream(currentUserMessage.parts[0].text);
+      
+      // Yield chunks as they arrive
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text();
+        if (chunkText) {
+          yield chunkText;
+        }
+      }
+      
+      console.log('=== STREAMING COMPLETE ===\n');
+    } catch (error: any) {
+      console.error('\n=== GEMINI STREAMING ERROR ===');
+      console.error('Error:', error.message);
+      console.error('Status:', error.status || 'N/A');
+      console.error('=== END STREAMING ERROR ===\n');
+      throw error;
+    }
+  }
+
+  /**
    * Actual chat completion attempt (without retry logic)
    */
   private async attemptChatCompletion(

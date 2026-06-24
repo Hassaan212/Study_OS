@@ -18,10 +18,12 @@ export default function AssistantPage() {
   const [chatInput, setChatInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [streamingMessage, setStreamingMessage] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const chatInputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -35,12 +37,12 @@ export default function AssistantPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll to bottom when messages change or during streaming
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isTyping]);
+  }, [messages, isTyping, streamingMessage]);
 
   const handleQuickAction = (prompt: string) => {
     setChatInput(prompt);
@@ -65,7 +67,11 @@ export default function AssistantPage() {
     setMessages((prev) => [...prev, userMessage]);
     setChatInput('');
     setIsTyping(true);
+    setStreamingMessage('');
     setError(null);
+
+    // Create abort controller for this request
+    abortControllerRef.current = new AbortController();
 
     try {
       // Prepare messages for API (only role and content)
@@ -74,35 +80,92 @@ export default function AssistantPage() {
         content: msg.content,
       }));
 
-      // Call API
-      const response = await fetch('/api/chat', {
+      // Call streaming API
+      const response = await fetch('/api/chat-stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ messages: apiMessages }),
+        signal: abortControllerRef.current.signal,
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
+        const data = await response.json();
         throw new Error(data.error || 'Failed to get response');
       }
 
-      // Add assistant message to chat
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.message,
-        timestamp: new Date(),
-      };
+      // Read the stream
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = '';
 
-      setMessages((prev) => [...prev, assistantMessage]);
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          
+          if (done) break;
+
+          // Decode the chunk
+          const chunk = decoder.decode(value, { stream: true });
+          
+          // Parse Server-Sent Events
+          const lines = chunk.split('\n');
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6);
+              
+              if (data === '[DONE]') {
+                // Stream completed
+                break;
+              }
+              
+              try {
+                const parsed = JSON.parse(data);
+                
+                if (parsed.error) {
+                  throw new Error(parsed.error);
+                }
+                
+                if (parsed.chunk) {
+                  accumulatedText += parsed.chunk;
+                  setStreamingMessage(accumulatedText);
+                }
+              } catch (e) {
+                // Ignore parse errors for incomplete chunks
+                if (data !== '[DONE]') {
+                  console.warn('Failed to parse chunk:', data);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Add final assistant message
+      if (accumulatedText) {
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: accumulatedText,
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => [...prev, assistantMessage]);
+      }
+      
+      setStreamingMessage('');
     } catch (err: any) {
-      console.error('Chat error:', err);
-      setError(err.message || 'Failed to send message. Please try again.');
+      if (err.name === 'AbortError') {
+        console.log('Request aborted');
+      } else {
+        console.error('Chat error:', err);
+        setError(err.message || 'Failed to send message. Please try again.');
+      }
+      setStreamingMessage('');
     } finally {
       setIsTyping(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -114,7 +177,15 @@ export default function AssistantPage() {
   };
 
   const clearChat = () => {
+    // Abort any ongoing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    
     setMessages([]);
+    setStreamingMessage('');
+    setIsTyping(false);
     setError(null);
   };
 
@@ -484,8 +555,50 @@ export default function AssistantPage() {
                           </div>
                         ))}
                         
-                        {/* Typing Indicator */}
-                        {isTyping && (
+                        {/* Streaming Message (in progress) */}
+                        {isTyping && streamingMessage && (
+                          <div className="flex gap-3 sm:gap-4 justify-start animate-fade-in">
+                            <div className="flex-shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm sm:text-base shadow-lg shadow-purple-500/50">
+                              AI
+                            </div>
+                            <div className="max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-4 sm:px-6 sm:py-5 shadow-lg bg-gradient-to-br from-gray-900/80 to-gray-800/60 backdrop-blur-md border border-gray-700/50 text-gray-100 shadow-black/20">
+                              <div className="prose prose-invert max-w-none prose-sm sm:prose-base">
+                                <ReactMarkdown
+                                  remarkPlugins={[remarkGfm]}
+                                  rehypePlugins={[rehypeHighlight]}
+                                  components={{
+                                    h1: ({node, ...props}) => <h1 className="text-xl sm:text-2xl font-bold mb-3 text-cyan-400" {...props} />,
+                                    h2: ({node, ...props}) => <h2 className="text-lg sm:text-xl font-bold mb-2 text-cyan-400" {...props} />,
+                                    h3: ({node, ...props}) => <h3 className="text-base sm:text-lg font-bold mb-2 text-cyan-300" {...props} />,
+                                    h4: ({node, ...props}) => <h4 className="text-sm sm:text-base font-bold mb-2 text-cyan-300" {...props} />,
+                                    p: ({node, ...props}) => <p className="mb-3 leading-relaxed text-gray-100" {...props} />,
+                                    ul: ({node, ...props}) => <ul className="list-disc list-inside mb-3 space-y-1 text-gray-100" {...props} />,
+                                    ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-3 space-y-1 text-gray-100" {...props} />,
+                                    li: ({node, ...props}) => <li className="leading-relaxed text-gray-100" {...props} />,
+                                    code: ({node, inline, ...props}: any) => 
+                                      inline ? (
+                                        <code className="bg-gray-950/50 text-cyan-400 px-1.5 py-0.5 rounded text-sm" {...props} />
+                                      ) : (
+                                        <code className="block bg-gray-950/70 p-4 rounded-lg overflow-x-auto text-sm my-3 border border-gray-700/50" {...props} />
+                                      ),
+                                    pre: ({node, ...props}) => <pre className="bg-gray-950/70 p-4 rounded-lg overflow-x-auto my-3 border border-gray-700/50" {...props} />,
+                                    strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
+                                    em: ({node, ...props}) => <em className="italic text-gray-200" {...props} />,
+                                    a: ({node, ...props}) => <a className="text-cyan-400 hover:text-cyan-300 underline" {...props} />,
+                                    blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-purple-500 pl-4 italic text-gray-300 my-3" {...props} />,
+                                  }}
+                                >
+                                  {streamingMessage}
+                                </ReactMarkdown>
+                                {/* Typing cursor */}
+                                <span className="inline-block w-2 h-4 bg-cyan-400 ml-1 animate-pulse" />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* Typing Indicator (waiting for first chunk) */}
+                        {isTyping && !streamingMessage && (
                           <div className="flex gap-3 sm:gap-4 justify-start animate-fade-in">
                             <div className="flex-shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm sm:text-base shadow-lg shadow-purple-500/50">
                               AI
